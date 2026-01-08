@@ -16,6 +16,12 @@ public class EnemyAI : MonoBehaviour
         agent = GetComponent<NavMeshAgent>();
         animator = GetComponent<Animator>();
 
+        agent.updatePosition = true;  // NavMeshAgent 控制位置
+        agent.updateRotation = true;  // NavMeshAgent 控制旋转
+
+        // Animator 不控制位置
+        animator.applyRootMotion = false;
+
         agent.isStopped = true;
     }
 
