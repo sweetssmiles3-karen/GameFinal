@@ -1,6 +1,7 @@
 using UnityEngine;
 using UnityEngine.UI;
-using DG.Tweening; // 必须导入 DOTween 后生效
+using DG.Tweening;
+// 必须导入 DOTween 后生效
 using System;
 
 public class ScreenFader : MonoBehaviour

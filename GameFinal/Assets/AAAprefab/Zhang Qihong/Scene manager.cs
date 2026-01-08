@@ -6,10 +6,10 @@ public class GameManager : MonoBehaviour
     public static GameManager Instance { get; private set; }
 
     // 运行时状态（内存中临时数据，跨场景保留）
-    public int coins = 0;
-    public int playerHealth = 100;
+    public int stone = 0;
+  //  public int playerHealth = 100;
     public int currentLevelIndex = 0; // 当前关卡索引（0=第一关）
-    public string[] levelNames = { "Level1", "Level2", "Level3" }; // 关卡列表（数据驱动）
+    public string[] levelNames = {"main menu","Level1", "Level2", "Level3" }; // 关卡列表（数据驱动）
 
     void Awake()
     {
@@ -23,12 +23,12 @@ public class GameManager : MonoBehaviour
     }
 
     // --- 状态操作方法（仅修改内存数据）---
-    public void AddCoins(int amount) => coins += amount;
+    public void AddCoins(int amount) => stone += amount;
     public bool SpendCoins(int amount)
     {
-        if (coins >= amount)
+        if (stone >= amount)
         {
-            coins -= amount;
+            stone -= amount;
             return true;
         }
         else
@@ -36,7 +36,7 @@ public class GameManager : MonoBehaviour
             return false;
         }
     }
-    public void SetHealth(int health) => playerHealth = Mathf.Clamp(health, 0, 100);
+  //  public void SetHealth(int health) => playerHealth = Mathf.Clamp(health, 0, 100);
     public void LoadLevel(int index) => SceneManager.LoadScene(levelNames[index]); // 简化版加载
 
 }
