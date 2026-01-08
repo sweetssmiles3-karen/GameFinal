@@ -1,31 +1,24 @@
 using UnityEngine;
 using UnityEngine.UI;
 using DG.Tweening;
-// 必须导入 DOTween 后生效
-using System;
+using System.Collections;
 
 public class ScreenFader : MonoBehaviour
 {
-    public Image fadeImage; // 全屏 Image（Alpha 初始为 0）
+    public Image fadeImage;
     public float fadeDuration = 0.5f;
 
-    void Awake()
-    {
-        // 初始状态：完全透明
-        fadeImage.color = new Color(0, 0, 0, 0);
-    }
-
-    // 淡出（变黑，用于场景切换前）
-    public void FadeOut(Action onComplete = null)
-    {
-        fadeImage.DOKill(); // 终止之前的动画
-        fadeImage.DOFade(1, fadeDuration).OnComplete(() => onComplete?.Invoke());
-    }
-
-    // 淡入（变透明，用于场景加载后）
-    public void FadeIn(Action onComplete = null)
+    // 淡出协程（返回 IEnumerator）
+    public IEnumerator FadeOut()
     {
         fadeImage.DOKill();
-        fadeImage.DOFade(0, fadeDuration).OnComplete(() => onComplete?.Invoke());
+        yield return fadeImage.DOFade(1, fadeDuration).WaitForCompletion();
+    }
+
+    // 淡入协程
+    public IEnumerator FadeIn()
+    {
+        fadeImage.DOKill();
+        yield return fadeImage.DOFade(0, fadeDuration).WaitForCompletion();
     }
 }
