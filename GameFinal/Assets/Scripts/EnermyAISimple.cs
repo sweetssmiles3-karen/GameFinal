@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-public class EnemyAI_SimpleAttack : MonoBehaviour
+public class EnemyAI_Simple : MonoBehaviour
 {
     public float attackRange = 3f;
 
