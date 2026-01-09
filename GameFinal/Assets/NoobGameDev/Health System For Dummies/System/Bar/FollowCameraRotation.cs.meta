@@ -1,8 +1,7 @@
 fileFormatVersion: 2
-guid: 476cc7d7cd9874016adc216baab94a0a
-timeCreated: 1484146680
-licenseType: Store
+guid: 50b1459e5e65bf2419e5dd67c82611b9
 MonoImporter:
+  externalObjects: {}
   serializedVersion: 2
   defaultReferences: []
   executionOrder: 0
@@ -15,5 +14,5 @@ AssetOrigin:
   productId: 215755
   packageName: Health System For Dummies
   packageVersion: 1.0.0
-  assetPath: Assets/TutorialInfo/Scripts/Editor/ReadmeEditor.cs
+  assetPath: Assets/NoobGameDev/Health System For Dummies/System/Bar/FollowCameraRotation.cs
   uploadId: 486432
