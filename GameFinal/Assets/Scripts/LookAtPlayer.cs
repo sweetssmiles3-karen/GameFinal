@@ -1,25 +1,27 @@
-using UnityEngine;
+锘縰sing UnityEngine;
 
 public class EnemyLookAtPlayer : MonoBehaviour
 {
-    public Transform player;      // 玩家 Transform
-    public float rotationSpeed = 5f;  // 旋转速度，可在 Inspector 调整
+    [Header("Target")]
+    public Transform lookTarget;   // 馃憟 鎷栫┖鐗╀綋锛堢帺瀹惰韩涓婄殑鐬勫噯鐐癸級
+
+    [Header("Rotation")]
+    public float rotationSpeed = 5f;
 
     void Update()
     {
-        if (player == null) return;
+        if (lookTarget == null) return;
 
-        // 计算面向玩家的方向
-        Vector3 direction = (player.position - transform.position).normalized;
+        Vector3 direction = lookTarget.position - transform.position;
 
-        // 只在水平面旋转，不上下仰角
-        direction.y = 0;
-
-        if (direction.magnitude > 0)
+        if (direction.sqrMagnitude > 0.0001f)
         {
-            // 平滑旋转
             Quaternion targetRotation = Quaternion.LookRotation(direction);
-            transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, rotationSpeed * Time.deltaTime);
+            transform.rotation = Quaternion.Slerp(
+                transform.rotation,
+                targetRotation,
+                rotationSpeed * Time.deltaTime
+            );
         }
     }
 }

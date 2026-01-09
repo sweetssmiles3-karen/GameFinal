@@ -3,57 +3,60 @@ using System.Collections;
 
 public class EnemyAttackEffectController : MonoBehaviour
 {
-    [Header("References")]
-    public Animator animator;
-    public GameObject attackEffect; // 特效物体
+    [System.Serializable]
+    public class EffectEntry
+    {
+        public GameObject effect;   // 特效物体
+        public float delay = 0f;    // 播放延迟，单位秒
+    }
 
-    [Header("Effect Timing")]
-    public float showTime = 2f;
-    public float hideTime = 1f;
-
-    private Coroutine effectCoroutine;
-    private bool isAttacking = false;
+    [Header("Attack Effects")]
+    public EffectEntry[] attackEffects; // 可以拖多个，每个设置不同延迟
 
     void Start()
     {
-        if (attackEffect != null)
-            attackEffect.SetActive(false);
-    }
-
-    void Update()
-    {
-        bool playingAttack =
-            animator.GetCurrentAnimatorStateInfo(0).IsName("attack");
-
-        // ▶️ 进入 attack 动画
-        if (playingAttack && !isAttacking)
+        // 开局关闭所有特效
+        if (attackEffects != null)
         {
-            isAttacking = true;
-            effectCoroutine = StartCoroutine(EffectLoop());
-        }
-
-        // ⛔ 离开 attack 动画
-        if (!playingAttack && isAttacking)
-        {
-            isAttacking = false;
-
-            if (effectCoroutine != null)
-                StopCoroutine(effectCoroutine);
-
-            if (attackEffect != null)
-                attackEffect.SetActive(false);
+            foreach (var entry in attackEffects)
+            {
+                if (entry.effect != null)
+                    entry.effect.SetActive(false);
+            }
         }
     }
 
-    IEnumerator EffectLoop()
+    // ▶️ 动画事件调用：开始播放所有特效
+    public void PlayAttackEffect()
     {
-        while (true)
+        if (attackEffects != null)
         {
-            attackEffect.SetActive(true);
-            yield return new WaitForSeconds(showTime);
-
-            attackEffect.SetActive(false);
-            yield return new WaitForSeconds(hideTime);
+            foreach (var entry in attackEffects)
+            {
+                if (entry.effect != null)
+                    StartCoroutine(PlayEffectWithDelay(entry.effect, entry.delay));
+            }
         }
+    }
+
+    // ⛔ 动画事件调用：停止所有特效
+    public void StopAttackEffect()
+    {
+        if (attackEffects != null)
+        {
+            foreach (var entry in attackEffects)
+            {
+                if (entry.effect != null)
+                {
+                    entry.effect.SetActive(false);
+                }
+            }
+        }
+    }
+
+    private IEnumerator PlayEffectWithDelay(GameObject effect, float delay)
+    {
+        yield return new WaitForSeconds(delay);
+        effect.SetActive(true);
     }
 }
