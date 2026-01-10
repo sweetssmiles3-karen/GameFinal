@@ -26,7 +26,7 @@ public class StoneDisplay : MonoBehaviour
         if (stoneText != null && uiManager != null)
         {
             int currentStones = uiManager.LoadStoneCount();
-            stoneText.text = $"石头数量：{currentStones}";
+            stoneText.text = $"{currentStones}";
         }
     }
 }
