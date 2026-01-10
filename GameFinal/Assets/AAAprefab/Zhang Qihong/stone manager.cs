@@ -1,6 +1,7 @@
 using UnityEngine;
 using System.IO;
 using System;
+using UnityEngine.Rendering.Universal;
 
 [Serializable]
 public class GameData
@@ -136,6 +137,25 @@ public class UIManager_stone: MonoBehaviour
         catch (Exception e)
         {
             Debug.LogError($"保存数据失败：{e.Message}");
+        }
+    }
+    public void addStone(int amount)
+    {
+        int currentStone = LoadStoneCount();
+        currentStone += amount;
+        SaveStoneCount(currentStone);
+    }
+    public void spendStone (int amount)
+    {
+        int currentStone = LoadStoneCount();
+        if (currentStone >= amount)
+        {
+            currentStone -= amount;
+            SaveStoneCount(currentStone);
+        }
+        else
+        {
+            Debug.LogWarning("石头数量不足，无法消费");
         }
     }
 }
