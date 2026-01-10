@@ -15,11 +15,15 @@ Material:
   - _ALPHATEST_ON
   - _COLOR_OVERLAY_UV
   - _SPECULAR_SETUP
-  m_InvalidKeywords: []
+  m_InvalidKeywords:
+  - _BEND_WIND_OVERLAY_VERTEX_POSITION
+  - _OVERLAY_B
+  - _OVERLAY_UV
+  - _WIND_OVERLAY_UV
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 1
-  m_CustomRenderQueue: -1
+  m_CustomRenderQueue: 2450
   stringTagMap:
     RenderType: TransparentCutout
   disabledShaderPasses:
@@ -136,6 +140,7 @@ Material:
     - _DetailAlbedoMapScale: 1
     - _DetailNormalMapScale: 1
     - _DstBlend: 0
+    - _DstBlendAlpha: 0
     - _EnableTopColor: 0
     - _Enable_Top_Color: 1
     - _EnvironmentReflections: 1
@@ -168,6 +173,7 @@ Material:
     - _SpecSource: 0
     - _SpecularHighlights: 1
     - _SrcBlend: 1
+    - _SrcBlendAlpha: 1
     - _Start_Bend_Range: 0.4
     - _Start_To_Bend_Range: 1
     - _Start_to_bend_range: 1
@@ -224,4 +230,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d0353a89b1f911e48b9e16bdc9f2e058, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  version: 9
+  version: 10
