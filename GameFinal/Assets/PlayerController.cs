@@ -71,7 +71,7 @@ public class PlayerController : MonoBehaviour
         }
 
         // ============================================================
-        // ATTACK (LEFT CLICK) — only when grounded!
+        // ATTACK (LEFT CLICK) â€” only when grounded!
         // ============================================================
         if (CC.isGrounded && Input.GetMouseButtonDown(0))
         {
