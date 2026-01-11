@@ -7,7 +7,7 @@ public class EnermyAttack : MonoBehaviour
 
     private float attackTimer = 0f;
 
-    private PlayerHealthController playerHealth;
+    private Health playerHealth;
 
     void Start()
     {
@@ -15,7 +15,7 @@ public class EnermyAttack : MonoBehaviour
 
         if (player != null)
         {
-            playerHealth = player.GetComponent<PlayerHealthController>();
+            playerHealth = player.GetComponent<Health>();
         }
 
         if (playerHealth == null)
