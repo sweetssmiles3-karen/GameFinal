@@ -53,17 +53,31 @@ public class PlayerAttack : MonoBehaviour
             }
 
             // C. Deal Damage 这里有改动！
+            
             EnermyHealth enemyHealth = target.GetComponentInParent<EnermyHealth>();
+            StoneHealth stoneHealth = target.GetComponentInParent<StoneHealth>();
+            BossHealth_UI bossHealth = target.GetComponentInParent<BossHealth_UI>();
 
             if (enemyHealth != null)
             {
-                Debug.Log(" 命中敌人：" + target.name);
                 enemyHealth.TakeDamage((int)damageAmount);
+                Debug.Log(" 命中普通敌人：" + target.name);
+            }
+            else if (stoneHealth != null)
+            {
+                stoneHealth.TakeDamage((int)damageAmount);
+                Debug.Log(" 命中 Stone 敌人：" + target.name);
+            }
+            else if (bossHealth != null)
+            {
+                bossHealth.TakeDamage((int)damageAmount);
+                Debug.Log(" 命中 Boss：" + target.name);
             }
             else
             {
-                Debug.LogWarning(" 命中物体但没有 EnermyHealth：" + target.name);
+                Debug.LogWarning(" 命中物体但没有 Health：" + target.name);
             }
+
 
         }
     }

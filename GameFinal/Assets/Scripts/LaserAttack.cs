@@ -4,23 +4,21 @@ using System.Collections;
 public class LaserDamage : MonoBehaviour
 {
     [Header("伤害设置")]
-    public int damagePerTick = 2;       // 每次扣血
-    public float tickInterval = 1f;     // 每秒扣一次血
+    public float damagePerTick = 2f;     // 每次扣血
+    public float tickInterval = 1f;      // 每秒扣一次血
 
     [Header("玩家Tag")]
-    public string playerTag = "Player"; // 玩家 Tag
+    public string playerTag = "Player";
 
-    // 用于防止重复触发多个协程
     private Coroutine damageCoroutine;
 
     private void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag(playerTag))
         {
-            PlayerHealthController playerHealth = other.GetComponent<PlayerHealthController>();
+            Health playerHealth = other.GetComponent<Health>();
             if (playerHealth != null && damageCoroutine == null)
             {
-                // 开始每秒扣血
                 damageCoroutine = StartCoroutine(DamageOverTime(playerHealth));
             }
         }
@@ -30,7 +28,6 @@ public class LaserDamage : MonoBehaviour
     {
         if (other.CompareTag(playerTag))
         {
-            // 离开激光区域，停止扣血
             if (damageCoroutine != null)
             {
                 StopCoroutine(damageCoroutine);
@@ -39,12 +36,12 @@ public class LaserDamage : MonoBehaviour
         }
     }
 
-    private IEnumerator DamageOverTime(PlayerHealthController playerHealth)
+    private IEnumerator DamageOverTime(Health playerHealth)
     {
-        while (true)
+        while (playerHealth != null)
         {
             playerHealth.TakeDamage(damagePerTick);
-            Debug.Log("Laser Attack! 扣血量: " + damagePerTick);    // 🔹 Debug 输出
+            Debug.Log("🔥 Laser Attack! 扣血量: " + damagePerTick);
             yield return new WaitForSeconds(tickInterval);
         }
     }
