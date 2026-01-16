@@ -20,7 +20,7 @@ public class EnermyHealth : MonoBehaviour
         enemyAI = GetComponent<EnemyAI>();
         if (enemyAI == null)
         {
-            Debug.LogError("❌ EnermyHealth 找不到 EnemyAI");
+            Debug.LogError(" EnermyHealth 找不到 EnemyAI");
         }
     }
 
@@ -40,11 +40,11 @@ public class EnermyHealth : MonoBehaviour
 
     void Die()
     {
-        Debug.Log("💀 Enemy 死亡");
+        Debug.Log(" Enemy 死亡");
 
         if (enemyAI != null)
         {
-            enemyAI.Die();   // 🔥 调用你刚刚写的死亡逻辑
+            enemyAI.Die();   //  调用你刚刚写的死亡逻辑
         }
     }
 }

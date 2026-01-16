@@ -20,7 +20,7 @@ public class EnermyAttack : MonoBehaviour
 
         if (playerHealth == null)
         {
-            Debug.LogError("❌ 找不到 PlayerHealthController");
+            Debug.LogError("找不到 PlayerHealthController");
         }
     }
 
