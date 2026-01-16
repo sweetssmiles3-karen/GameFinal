@@ -6,11 +6,12 @@ public class HeadUIFlash : MonoBehaviour
     public GameObject exclamationUI; // 头顶UI
     public float displayTime = 2f;   // 闪烁总时长
 
-    void Start()
+    // 允许外部调用显示UI
+    public void FlashUI()
     {
         if (exclamationUI != null)
         {
-            exclamationUI.SetActive(true); // 开局显示
+            exclamationUI.SetActive(true);
             StartCoroutine(HideUIAfterDelay());
         }
     }
@@ -18,8 +19,7 @@ public class HeadUIFlash : MonoBehaviour
     private IEnumerator HideUIAfterDelay()
     {
         yield return new WaitForSeconds(displayTime);
-
         if (exclamationUI != null)
-            exclamationUI.SetActive(false); // 消失
+            exclamationUI.SetActive(false);
     }
 }

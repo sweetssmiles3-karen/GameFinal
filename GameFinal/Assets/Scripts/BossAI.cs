@@ -15,6 +15,14 @@ public class BossAI : MonoBehaviour
     public float attackFarCooldown = 2f; // 远程攻击间隔
     public float attackNearCooldown = 1.5f; // 近战攻击间隔
 
+    [Header("近战伤害设置")]
+    public int meleeDamage = 10;              // 每次近战伤害
+    public float meleeCooldown = 2f;          // 攻击冷却
+    public LaserDamage laserAttack;           // Phase1 的 LaserDamage 脚本引用
+
+    private bool canMeleeAttack = true;       // 攻击冷却标记
+
+
     private Animator animator;
     private BossHealth_UI bossHealth;
     private NavMeshAgent agent;
@@ -44,50 +52,54 @@ public class BossAI : MonoBehaviour
         {
             if (distance <= detectRange && Time.time >= nextAttackTime)
             {
-                // 🔹【新增】攻击前先面向玩家
                 Vector3 lookDir = player.position - transform.position;
-                
+                lookDir.y = 0;
 
                 if (lookDir.sqrMagnitude > 0.001f)
-                {
                     transform.rotation = Quaternion.LookRotation(lookDir);
-                }
 
-                // 🔹 播放远程攻击动画
                 animator.SetTrigger("attackFar");
-
-                // 🔹 设置攻击冷却
                 nextAttackTime = Time.time + attackFarCooldown;
             }
 
-            // 血量归零时进入Phase2
-            if (bossHealth != null && bossHealth.currentHP <= 0)
+            if (!isPhase2 && bossHealth != null && bossHealth.currentHP <= 0 && !isDead)
             {
                 StartCoroutine(EnterPhase2());
             }
         }
 
         // ---------- Phase2逻辑 ----------
-        if (isPhase2)
+        if (isPhase2 && !isDead)
         {
-            // 开启NavMesh追踪玩家
+            // PowerUp 完成后（Phase2开始）
+            if (laserAttack != null)
+                laserAttack.enabled = false; // 禁用原来的激光伤害
+
+
             if (agent.enabled)
+            {
                 agent.SetDestination(player.position);
 
-            // 检测玩家距离进行近战攻击
-            if (distance <= detectRange && Time.time >= nextAttackTime)
-            {
-                animator.SetTrigger("attackNear");      // 🔹 播放近战攻击动画
-                nextAttackTime = Time.time + attackNearCooldown;
+                if (animator != null)
+                    animator.SetBool("run", agent.velocity.sqrMagnitude > 0.1f);
             }
 
-            // Phase2血量归零死亡
+            if (distance <= detectRange && Time.time >= nextAttackTime)
+            {
+                animator.SetTrigger("attackNear");
+                nextAttackTime = Time.time + attackNearCooldown;
+
+                // 🔹 延迟伤害：可以用协程或 Animator Event
+                StartCoroutine(DelayedMeleeHit(0.5f)); // 假设动画0.5秒后打击命中
+            }
+
             if (bossHealth != null && bossHealth.currentHP <= 0)
             {
                 StartCoroutine(Die());
             }
         }
     }
+
 
     /// <summary>
     /// Phase1 -> Phase2切换
@@ -96,9 +108,16 @@ public class BossAI : MonoBehaviour
     {
         isPhase2 = true;
 
-        // 🔹 播放PowerUp动画
+        // 🔹 禁用 NavMeshAgent，防止移动
+        if (agent != null)
+            agent.enabled = false;
+
+        // 🔹 设置 PowerUp 动画播放速度为 0.5 倍
         if (animator != null)
+        {
+            animator.speed = 0.5f;           // 🔹 全局动画速度减半
             animator.SetTrigger("PowerUp");
+        }
 
         // 🔹 血量回满
         if (bossHealth != null)
@@ -108,13 +127,19 @@ public class BossAI : MonoBehaviour
             bossHealth.UpdateHealthUI();
         }
 
-        // 🔹 等待PowerUp动画播放完（假设3秒）
-        yield return new WaitForSeconds(3f);
+        // 🔹 等待 PowerUp 动画播放完（假设动画长度 3 秒，0.5倍速需要 6 秒）
+        float powerUpLength = 3f;            // 原始动画长度
+        yield return new WaitForSeconds(powerUpLength / 0.5f); // 0.5倍速播放时间 = 原始 / 0.5 = 6秒
 
-        // 🔹 开启NavMesh，开始追玩家
+        // 🔹 恢复动画速度为正常
+        if (animator != null)
+            animator.speed = 1f;
+
+        // 🔹 开启 NavMeshAgent，开始追玩家
         if (agent != null)
             agent.enabled = true;
     }
+
 
     /// <summary>
     /// Boss死亡处理
@@ -135,4 +160,35 @@ public class BossAI : MonoBehaviour
         yield return new WaitForSeconds(3f);
         Destroy(gameObject);
     }
+
+    private void PerformMeleeAttack()
+    {
+        if (!canMeleeAttack) return;
+
+        // 找到玩家血量脚本
+        Health playerHealth = player.GetComponent<Health>();
+        if (playerHealth != null)
+        {
+            playerHealth.TakeDamage(meleeDamage);
+            Debug.Log($"💥 Boss近战攻击玩家 -{meleeDamage}HP");
+        }
+
+        // 设置攻击冷却
+        canMeleeAttack = false;
+        StartCoroutine(MeleeCooldown());
+    }
+
+    private IEnumerator MeleeCooldown()
+    {
+        yield return new WaitForSeconds(meleeCooldown);
+        canMeleeAttack = true;
+    }
+
+    private IEnumerator DelayedMeleeHit(float delay)
+    {
+        yield return new WaitForSeconds(delay);
+        PerformMeleeAttack();
+    }
+
+
 }

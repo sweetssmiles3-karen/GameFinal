@@ -1,11 +1,11 @@
-using UnityEngine;
+﻿using UnityEngine;
 
 public class PlayerAttack : MonoBehaviour
 {
     [Header("Magic Combat Settings")]
     public GameObject hitEffectPrefab;  // The sparkle/explosion particle
     public float attackRange = 15f;     // Range of the spell
-    public float damageAmount = 25f;    // Damage per hit
+    public float damageAmount = 20f;    // Damage per hit
     public LayerMask enemyLayer;        // Set this to "Enemy" layer
 
     private Animator anim;
@@ -35,10 +35,15 @@ public class PlayerAttack : MonoBehaviour
         // 3. If valid target found
         if (target != null)
         {
-            // A. Rotate to face enemy immediately
-            Vector3 directionToEnemy = (target.position - transform.position).normalized;
-            directionToEnemy.y = 0; // Keep rotation flat
-            transform.rotation = Quaternion.LookRotation(directionToEnemy);
+            // A. Rotate to face enemy immediately 这里也有改！
+            Vector3 directionToEnemy = target.position - transform.position;
+            directionToEnemy.y = 0;
+
+            if (directionToEnemy.sqrMagnitude > 0.001f)
+            {
+                transform.rotation = Quaternion.LookRotation(directionToEnemy);
+            }
+
 
             // B. Spawn Particle on Enemy
             if (hitEffectPrefab != null)
@@ -47,12 +52,33 @@ public class PlayerAttack : MonoBehaviour
                 Instantiate(hitEffectPrefab, target.position + Vector3.up * 1f, Quaternion.identity);
             }
 
-            // C. Deal Damage
-            Health enemyHealth = target.GetComponent<Health>();
+            // C. Deal Damage 这里有改动！
+            
+            EnermyHealth enemyHealth = target.GetComponentInParent<EnermyHealth>();
+            StoneHealth stoneHealth = target.GetComponentInParent<StoneHealth>();
+            BossHealth_UI bossHealth = target.GetComponentInParent<BossHealth_UI>();
+
             if (enemyHealth != null)
             {
-                enemyHealth.TakeDamage(damageAmount);
+                enemyHealth.TakeDamage((int)damageAmount);
+                Debug.Log(" 命中普通敌人：" + target.name);
             }
+            else if (stoneHealth != null)
+            {
+                stoneHealth.TakeDamage((int)damageAmount);
+                Debug.Log(" 命中 Stone 敌人：" + target.name);
+            }
+            else if (bossHealth != null)
+            {
+                bossHealth.TakeDamage((int)damageAmount);
+                Debug.Log(" 命中 Boss：" + target.name);
+            }
+            else
+            {
+                Debug.LogWarning(" 命中物体但没有 Health：" + target.name);
+            }
+
+
         }
     }
 
