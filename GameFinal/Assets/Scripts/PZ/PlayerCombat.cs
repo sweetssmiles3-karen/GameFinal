@@ -3,8 +3,8 @@ using UnityEngine;
 public class PlayerCombat : MonoBehaviour
 {
     [Header("Ranges")]
-    public float meleeRange = 3.0f;     // Distance for "Smacking"
-    public float magicRange = 15.0f;    // Distance for "Shooting"
+    public float meleeRange = 3.0f;     // Distance for "Melee"
+    public float magicRange = 15.0f;    // Distance for "Ranged"
 
     [Header("Damage")]
     public float meleeDamage = 40f;     // Hits harder because it's risky
