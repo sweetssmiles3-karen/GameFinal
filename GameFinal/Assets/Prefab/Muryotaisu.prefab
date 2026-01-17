@@ -975,6 +975,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4311502304904158189}
+  - component: {fileID: 8103596381123777910}
   - component: {fileID: 7723223960847360685}
   - component: {fileID: 8363650456289088219}
   - component: {fileID: 1200570787941417655}
@@ -1011,6 +1012,18 @@ Transform:
   - {fileID: 6386418862930723109}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &8103596381123777910
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3314705231161252340}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ed1c04b5847bcfd4cbf84747d198c071, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &7723223960847360685
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1050,14 +1063,23 @@ MonoBehaviour:
   comboResetTime: 3
   rangedDamage: 20
   rangedRange: 15
-  rangedHitEffect: {fileID: 1724243991040466, guid: f3377962368b1df43ae045f46ddaf9cd, type: 3}
+  rangedHitEffect: {fileID: 526996498993451984, guid: cf66989dee599284896305aead90ee8c, type: 3}
+  rangedImpactDelays:
+  - 0.3
+  - 0.4
+  - 0.8
   meleeDamage: 50
   meleeRange: 3
   maxMeleeTargets: 3
   meleeLockTime: 3
-  meleeHitEffect: {fileID: 3380790115384408701, guid: ba178cd5cb133f94b8c8d6c7f4d7c74c, type: 3}
+  meleeHitEffect: {fileID: 2014747259002201419, guid: c67a0f8fecc465e4081ac750d44f51e7, type: 3}
   meleeImpactDelay: 0.9
   lightningYOffset: 0.5
+  grenadeDamage: 80
+  grenadeRadius: 4
+  grenadeCastDelay: 0.5
+  grenadeEffect: {fileID: 4673238216908124611, guid: 0d0d275f0cfdd214280883474f30fb68, type: 3}
+  grenadeDistance: 3
   enemyLayer:
     serializedVersion: 2
     m_Bits: 8
@@ -1075,15 +1097,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   maxHealth: 100
   currentHealth: 0
-  destroyDelay: 4
+  knockbackDistance: 0.25
+  knockbackDuration: 0.2
   isInvulnerable: 0
   OnHealthChanged:
     m_PersistentCalls:
       m_Calls: []
-  OnTakeDamage:
-    m_PersistentCalls:
-      m_Calls: []
-  OnDie:
+  OnPlayerDeath:
     m_PersistentCalls:
       m_Calls: []
 --- !u!95 &3973084380446905540

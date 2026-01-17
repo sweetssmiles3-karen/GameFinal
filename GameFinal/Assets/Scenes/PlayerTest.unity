@@ -842,22 +842,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 8363650456289088219, guid: e6ea51fe9b4a87344962e9940c68ac95, type: 3}
-      propertyPath: grenadeEffect
-      value: 
-      objectReference: {fileID: 4673238216908124611, guid: 0d0d275f0cfdd214280883474f30fb68, type: 3}
-    - target: {fileID: 8363650456289088219, guid: e6ea51fe9b4a87344962e9940c68ac95, type: 3}
-      propertyPath: rangedHitEffect
-      value: 
-      objectReference: {fileID: 526996498993451984, guid: cf66989dee599284896305aead90ee8c, type: 3}
-    - target: {fileID: 8363650456289088219, guid: e6ea51fe9b4a87344962e9940c68ac95, type: 3}
-      propertyPath: 'rangedImpactDelays.Array.data[1]'
-      value: 0.4
-      objectReference: {fileID: 0}
-    - target: {fileID: 8363650456289088219, guid: e6ea51fe9b4a87344962e9940c68ac95, type: 3}
-      propertyPath: 'rangedImpactDelays.Array.data[2]'
-      value: 0.8
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -868,6 +852,63 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 4311502304904158189, guid: e6ea51fe9b4a87344962e9940c68ac95, type: 3}
   m_PrefabInstance: {fileID: 1262482838}
   m_PrefabAsset: {fileID: 0}
+--- !u!1001 &4478098080911578129
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 578437842528169066, guid: c67a0f8fecc465e4081ac750d44f51e7, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -18.322062
+      objectReference: {fileID: 0}
+    - target: {fileID: 578437842528169066, guid: c67a0f8fecc465e4081ac750d44f51e7, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 578437842528169066, guid: c67a0f8fecc465e4081ac750d44f51e7, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 16.81515
+      objectReference: {fileID: 0}
+    - target: {fileID: 578437842528169066, guid: c67a0f8fecc465e4081ac750d44f51e7, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.7071068
+      objectReference: {fileID: 0}
+    - target: {fileID: 578437842528169066, guid: c67a0f8fecc465e4081ac750d44f51e7, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0.7071068
+      objectReference: {fileID: 0}
+    - target: {fileID: 578437842528169066, guid: c67a0f8fecc465e4081ac750d44f51e7, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 578437842528169066, guid: c67a0f8fecc465e4081ac750d44f51e7, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 578437842528169066, guid: c67a0f8fecc465e4081ac750d44f51e7, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: -90
+      objectReference: {fileID: 0}
+    - target: {fileID: 578437842528169066, guid: c67a0f8fecc465e4081ac750d44f51e7, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 578437842528169066, guid: c67a0f8fecc465e4081ac750d44f51e7, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2014747259002201419, guid: c67a0f8fecc465e4081ac750d44f51e7, type: 3}
+      propertyPath: m_Name
+      value: LightningStrikeSharpPink
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: c67a0f8fecc465e4081ac750d44f51e7, type: 3}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
@@ -881,3 +922,4 @@ SceneRoots:
   - {fileID: 284268627}
   - {fileID: 1075645071}
   - {fileID: 1233867838}
+  - {fileID: 4478098080911578129}
