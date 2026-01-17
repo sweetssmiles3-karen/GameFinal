@@ -17,7 +17,7 @@ public class Gem : MonoBehaviour
             {
                 gemHintUI.ShowHint();
             }
-            
+            SaveManager.Instance.AddStone(1);
             Destroy(gameObject);
         }
     }
