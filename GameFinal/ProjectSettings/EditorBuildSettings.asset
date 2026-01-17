@@ -17,8 +17,8 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Loading to level 3.unity
     guid: b5efee59d9c7cb04d94391023a8c3f21
-  - enabled: 1
-    path: Assets/Scenes/Level 1.unity
+  - enabled: 0
+    path: Assets/Scenes/Level 1-unfinish.unity
     guid: 4e567f16bde7af6428c8929227386e62
   - enabled: 1
     path: Assets/Scenes/Level 2.unity
@@ -29,6 +29,9 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Level3UI.unity
     guid: 1f28e92c8a4372d44ae387465a115a59
+  - enabled: 1
+    path: Assets/Scenes/Level 1.unity
+    guid: df8bd894aa7b0dc4585d0110a533b8b3
   m_configObjects:
     com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 052faaac586de48259a63d0c4782560b, type: 3}
   m_UseUCBPForAssetBundles: 0

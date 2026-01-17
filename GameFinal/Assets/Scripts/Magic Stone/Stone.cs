@@ -17,7 +17,7 @@ public class Gem : MonoBehaviour
             {
                 gemHintUI.ShowHint();
             }
-
+            
             Destroy(gameObject);
         }
     }

@@ -1870,6 +1870,52 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1074419924}
   m_CullTransparentMesh: 1
+--- !u!1 &1090923254
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1090923257}
+  - component: {fileID: 1090923255}
+  m_Layer: 0
+  m_Name: stome manager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1090923255
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1090923254}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 918aaf3e5a132594798e7e67df37e51f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  stoneCount: 0
+  levelCode: 0
+--- !u!4 &1090923257
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1090923254}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 109.02012, y: 30.104544, z: 142.58104}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1301722932
 GameObject:
   m_ObjectHideFlags: 0
@@ -1879,13 +1925,14 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1301722933}
+  - component: {fileID: 1301722934}
   m_Layer: 0
-  m_Name: stone counter
+  m_Name: game manager
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1301722933
 Transform:
   m_ObjectHideFlags: 0
@@ -1901,6 +1948,18 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1301722934
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1301722932}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d3e5a969122427c46a1e2e246ff6898e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1349961947
 GameObject:
   m_ObjectHideFlags: 0
@@ -3053,3 +3112,4 @@ SceneRoots:
   - {fileID: 689604156}
   - {fileID: 1537602666}
   - {fileID: 1301722933}
+  - {fileID: 1090923257}

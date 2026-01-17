@@ -329,7 +329,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 46f4f20c6a63b7547a15280178698f62, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  NextSceneName: KarenScene
+  NextSceneName: Level 1
   waitTime: 1
 --- !u!4 &1350470731
 Transform:
