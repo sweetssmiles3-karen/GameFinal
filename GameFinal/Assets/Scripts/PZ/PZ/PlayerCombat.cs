@@ -6,15 +6,15 @@ using UnityEngine.Events;
 public class PlayerCombat : MonoBehaviour
 {
     [Header("Mana Settings")]
-    public float maxMana = 40f;            
-    public float currentMana;              
-    public float leftClickManaCost = 1f;   
-    public float rightClickManaCost = 5f;  
+    public float maxMana = 40f;
+    public float currentMana;
+    public float leftClickManaCost = 1f;
+    public float rightClickManaCost = 5f;
 
     [Header("Mana Regeneration")]
-    public float manaRegenAmount = 1f;     
-    public float manaRegenInterval = 1.0f; 
-    public UnityEvent<float> OnManaChanged; 
+    public float manaRegenAmount = 1f;
+    public float manaRegenInterval = 1.0f;
+    public UnityEvent<float> OnManaChanged;
 
     [Header("Combo Speed (Cooldowns)")]
     public float[] comboIntervals = { 0.5f, 0.7f, 1.0f };
@@ -41,11 +41,12 @@ public class PlayerCombat : MonoBehaviour
     public float grenadeCastDelay = 0.5f;
     public GameObject grenadeEffect;
     public float grenadeDistance = 3.0f;
+    public float grenadeManaCost = 20f;
+    public float grenadeCooldown = 5.0f;
 
     [Header("General Settings")]
     public LayerMask enemyLayer;
 
-    
     private Animator anim;
     private PlayerMovement movement;
     private PlayerHealth myHealth;
@@ -62,18 +63,16 @@ public class PlayerCombat : MonoBehaviour
         movement = GetComponent<PlayerMovement>();
         myHealth = GetComponent<PlayerHealth>();
 
-        
         currentMana = maxMana;
         OnManaChanged?.Invoke(currentMana / maxMana);
     }
 
     void Update()
     {
-       
         if (isReloading)
         {
             bool isMoving = (Input.GetAxis("Horizontal") != 0 || Input.GetAxis("Vertical") != 0);
-            bool isClicking = (Input.GetMouseButtonDown(0) || Input.GetMouseButtonDown(1));
+            bool isClicking = (Input.GetMouseButtonDown(0) || Input.GetMouseButtonDown(1) || Input.GetKeyDown(KeyCode.G));
 
             if (isMoving || isClicking)
             {
@@ -81,7 +80,6 @@ public class PlayerCombat : MonoBehaviour
             }
         }
 
-        
         if (Time.time - lastAttackTime > comboResetTime && comboStep != 0)
         {
             comboStep = 0;
@@ -91,7 +89,6 @@ public class PlayerCombat : MonoBehaviour
         if (isAttacking) return;
         if (Time.time < lastAttackTime + currentCooldown) return;
 
-       
         if (Input.GetMouseButtonDown(0))
         {
             if (currentMana >= leftClickManaCost)
@@ -107,7 +104,6 @@ public class PlayerCombat : MonoBehaviour
             }
         }
 
-        
         if (Input.GetMouseButtonDown(1))
         {
             if (currentMana >= rightClickManaCost)
@@ -123,7 +119,6 @@ public class PlayerCombat : MonoBehaviour
             }
         }
 
-        
         if (Input.GetKeyDown(KeyCode.R))
         {
             if (!isReloading && currentMana < maxMana)
@@ -132,39 +127,39 @@ public class PlayerCombat : MonoBehaviour
             }
         }
 
-        
         if (Input.GetKeyDown(KeyCode.G))
         {
-            StopReloading();
-            StartCoroutine(PerformGrenadeSkill());
+            if (currentMana >= grenadeManaCost)
+            {
+                currentMana -= grenadeManaCost;
+                OnManaChanged?.Invoke(currentMana / maxMana);
+                StopReloading();
+                StartCoroutine(PerformGrenadeSkill());
+            }
+            else
+            {
+                Debug.Log("Not enough Mana for G-Bomb!");
+            }
         }
     }
 
-    
     IEnumerator ReloadManaRoutine()
     {
         isReloading = true;
 
-        
         lastAttackTime = Time.time;
         currentCooldown = 0.5f;
 
-        anim.SetTrigger("Reload"); 
+        anim.SetTrigger("Reload");
 
-        
         while (isReloading && currentMana < maxMana)
         {
-            
             yield return new WaitForSeconds(manaRegenInterval);
 
-            
             if (isReloading)
             {
                 currentMana += manaRegenAmount;
-
-                
                 if (currentMana > maxMana) currentMana = maxMana;
-
                 OnManaChanged?.Invoke(currentMana / maxMana);
             }
         }
@@ -178,11 +173,8 @@ public class PlayerCombat : MonoBehaviour
         {
             isReloading = false;
             StopCoroutine("ReloadManaRoutine");
-            
         }
     }
-
-   
 
     IEnumerator PerformRangedCombo()
     {
@@ -273,7 +265,7 @@ public class PlayerCombat : MonoBehaviour
     {
         isAttacking = true;
         lastAttackTime = Time.time;
-        currentCooldown = 2.0f;
+        currentCooldown = grenadeCooldown;
 
         anim.SetTrigger("Grenade");
         if (movement != null) movement.canMove = false;
