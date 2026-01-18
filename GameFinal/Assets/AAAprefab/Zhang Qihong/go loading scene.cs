@@ -4,8 +4,9 @@ using UnityEngine.SceneManagement;
 public class CurrentSceneLoader : MonoBehaviour
 {
     public static CurrentSceneLoader Instance { get; private set; }
+
     public string NextSceneName;
-   // void Awake() => Instance = this;
+    void Awake() => Instance = this;
 
     // 由过关检测函数调用
     public void TriggerLevelTransition()
