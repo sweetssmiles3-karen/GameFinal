@@ -115,7 +115,7 @@ public class PlayerCombat : MonoBehaviour
             }
             else
             {
-                Debug.Log("Not enough Mana!");
+                Debug.Log("Not enough Mana!"); 
             }
         }
 
@@ -210,6 +210,8 @@ public class PlayerCombat : MonoBehaviour
 
             IDamageable enemyHealth = target.GetComponent<IDamageable>();
             if (enemyHealth != null) enemyHealth.TakeDamage(dmg);
+            else Debug.LogWarning("Target does not implement IDamageable");
+            Debug.Log("Ranged hit: " + target.name);
         }
     }
 
@@ -242,6 +244,7 @@ public class PlayerCombat : MonoBehaviour
                 if (target != null)
                 {
                     target.TakeDamage(meleeDamage);
+                    Debug.Log("Melee hit: " + enemyObject.name);
                     if (meleeHitEffect != null)
                     {
                         Vector3 spawnPos = enemyObject.transform.position + (Vector3.up * lightningYOffset);
@@ -249,6 +252,10 @@ public class PlayerCombat : MonoBehaviour
                     }
                     alreadyHitList.Add(enemyObject);
                     hitCount++;
+                }
+                else
+                {
+                    Debug.LogWarning("Target does not implement IDamageable");
                 }
             }
         }
@@ -281,6 +288,7 @@ public class PlayerCombat : MonoBehaviour
         foreach (Collider collider in hitEnemies)
         {
             IDamageable target = collider.GetComponent<IDamageable>();
+            Debug.Log("G-Bomb hit: " + collider.gameObject.name);
             if (target != null) target.TakeDamage(grenadeDamage);
         }
 
