@@ -82,12 +82,16 @@ public class PlayerCombat : MonoBehaviour
 
     void Update()
     {
-        // 1. MANA REGEN CANCELLATION
+        // 1. MANA REGEN CANCELLATION CHECK
         if (isReloading)
         {
-            // If player moves, clicks, or casts G, stop reloading
-            bool isMoving = (Input.GetAxis("Horizontal") != 0 || Input.GetAxis("Vertical") != 0);
-            bool isClicking = (Input.GetMouseButtonDown(0) || Input.GetMouseButtonDown(1) || Input.GetKeyDown(KeyCode.G));
+            // Use a tiny deadzone (0.1) to prevent accidental stops
+            bool isMoving = Mathf.Abs(Input.GetAxis("Horizontal")) > 0.1f ||
+                            Mathf.Abs(Input.GetAxis("Vertical")) > 0.1f;
+
+            bool isClicking = Input.GetMouseButtonDown(0) ||
+                              Input.GetMouseButtonDown(1) ||
+                              Input.GetKeyDown(KeyCode.G);
 
             if (isMoving || isClicking)
             {
@@ -95,6 +99,7 @@ public class PlayerCombat : MonoBehaviour
             }
         }
 
+        // 2. CHECK COMBO RESET
         if (Time.time - lastAttackTime > comboResetTime && comboStep != 0)
         {
             comboStep = 0;
@@ -139,7 +144,7 @@ public class PlayerCombat : MonoBehaviour
         // RELOAD (Key R)
         if (Input.GetKeyDown(KeyCode.R))
         {
-            // Only start if not reloading AND mana is not full
+            // Only start if NOT reloading AND mana is not full
             if (!isReloading && currentMana < maxMana)
             {
                 StartCoroutine(ReloadManaRoutine());
@@ -163,26 +168,25 @@ public class PlayerCombat : MonoBehaviour
         }
     }
 
-    // --- MANA REGEN LOGIC (UPDATED FOR LOOP) ---
+    // --- MANA REGEN LOGIC (Reverted to Trigger) ---
     IEnumerator ReloadManaRoutine()
     {
         isReloading = true;
         lastAttackTime = Time.time;
         currentCooldown = 0.5f;
 
-        // 1. START ANIMATION LOOP
-        // Note: You must create a Bool parameter named "IsReloading" in Animator!
-        anim.SetBool("IsReloading", true);
+        // 1. Play Animation ONCE (Trigger)
+        anim.SetTrigger("Reload");
 
-        // 2. START SOUND LOOP
+        // 2. Play Sound (Looping while logic runs)
         if (audioSource != null && reloadSound != null)
         {
             audioSource.clip = reloadSound;
-            audioSource.loop = true; // Make it repeat continuously
+            audioSource.loop = true;
             audioSource.Play();
         }
 
-        // 3. REGEN LOOP
+        // 3. Regen Loop
         while (isReloading && currentMana < maxMana)
         {
             yield return new WaitForSeconds(manaRegenInterval);
@@ -190,13 +194,13 @@ public class PlayerCombat : MonoBehaviour
             if (isReloading)
             {
                 currentMana += manaRegenAmount;
-                // If full, cap it and stop
+                // Cap Mana
                 if (currentMana >= maxMana)
                 {
                     currentMana = maxMana;
                     OnManaChanged?.Invoke(currentMana / maxMana);
-                    StopReloading(); // <--- Auto-stop when full
-                    yield break;     // Exit the loop
+                    StopReloading(); // Done!
+                    yield break;
                 }
 
                 OnManaChanged?.Invoke(currentMana / maxMana);
@@ -211,19 +215,19 @@ public class PlayerCombat : MonoBehaviour
             isReloading = false;
             StopCoroutine("ReloadManaRoutine");
 
-            // 1. STOP ANIMATION
-            anim.SetBool("IsReloading", false);
-
-            // 2. STOP SOUND
+            // Stop Sound
             if (audioSource != null)
             {
                 audioSource.loop = false;
                 audioSource.Stop();
             }
+
+            // Note: Since we use Trigger "R", the animation will just finish naturally 
+            // or transition back to Idle automatically based on your Animator setup.
         }
     }
 
-    // --- COMBAT COROUTINES (SAME AS BEFORE) ---
+    // --- COMBAT COROUTINES ---
 
     IEnumerator PerformRangedCombo()
     {

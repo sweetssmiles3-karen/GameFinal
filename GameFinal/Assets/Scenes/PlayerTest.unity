@@ -855,6 +855,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7723223960847360685, guid: e6ea51fe9b4a87344962e9940c68ac95, type: 3}
+      propertyPath: dashSound
+      value: 
+      objectReference: {fileID: 8300000, guid: b64efba55b8ad514c8484d27573d78b2, type: 3}
     - target: {fileID: 8363650456289088219, guid: e6ea51fe9b4a87344962e9940c68ac95, type: 3}
       propertyPath: reloadSound
       value: 
