@@ -1,58 +1,57 @@
 using UnityEngine;
 using System.IO;
-using System;
-
-// 数据载体：明确需要存档的字段（与GameManager状态对应）
-[System.Serializable]
-public class SaveData
-{
-    public int coins;
-    public int currentLevelIndex;
-    public string lastSaveTime; // 扩展字段：存档时间
-}
 
 public class SaveManager : MonoBehaviour
 {
-    public static SaveManager Instance { get; private set; }
-    private string savePath;
+    // 直接暴露的存档数据（启动时自动加载，修改后自动保存）
+    public int stoneCount;
+    public int levelCode;
 
+    private string savePath;
+    public static SaveManager Instance { get; private set; }
     void Awake()
     {
-        // 单例逻辑（可与GameManager共存，均为全局唯一）
-        if (Instance != null && Instance != this) Destroy(gameObject);
-        else
-        {
-            Instance = this;
-            DontDestroyOnLoad(gameObject); // 可选：若需跨场景调用存档，保留；否则可销毁
-            savePath = Path.Combine(Application.persistentDataPath, "save.json");
-        }
+        // 初始化路径&单例
+        savePath = Path.Combine(Application.persistentDataPath, "save.dat");
+        if (Instance == null) Instance = this;
+        else Destroy(gameObject);
+
+        // 启动时自动加载存档（无存档则新建默认值）
+        Load();
     }
 
-    // --- 存档：接收GameManager的状态，写入文件 ---
-    public void SaveGame(SaveData data)
+    // 存储操作（直接修改public变量后自动保存）
+    public void AddStone(int num) { stoneCount += num; Save(); }
+    public void UseStone(int num)
     {
-        try
+        if (stoneCount >= num)
         {
-            string json = JsonUtility.ToJson(data, true);
-            File.WriteAllText(savePath, json);
-            Debug.Log($"存档成功：{savePath}");
+            stoneCount -= num;
+            Save();
         }
-        catch (Exception e) { Debug.LogError($"存档失败：{e.Message}"); }
+        else Debug.LogWarning("Stone不足！");
     }
+    public void SetLevel(int code) { levelCode = code; Save(); }
 
-    // --- 读档：从文件读取数据，返回给GameManager ---
-    public SaveData LoadGame()
+    // 读档逻辑（异常容错）
+    private void Load()
     {
-        if (!File.Exists(savePath)) { Debug.Log("无存档文件，返回默认数据"); return new SaveData(); }
-
-        try
+        if (File.Exists(savePath))
         {
-            string json = File.ReadAllText(savePath);
-            return JsonUtility.FromJson<SaveData>(json);
+            try { stoneCount = int.Parse(File.ReadAllText(savePath).Split(',')[0]); }
+            catch { ResetDefaults(); }
         }
-        catch (Exception e) { Debug.LogError($"读档失败：{e.Message}"); return new SaveData(); }
+        else ResetDefaults();
     }
 
-    // --- 扩展功能：删除存档 ---
-    public void DeleteSave() => File.Delete(savePath);
+    // 默认值重置（异常时触发）
+    private void ResetDefaults()
+    {
+        stoneCount = 0;
+        levelCode = 0;
+        Save();
+    }
+
+    // 存档逻辑（直接覆盖文件）
+    private void Save() => File.WriteAllText(savePath, $"{stoneCount},{levelCode}");
 }

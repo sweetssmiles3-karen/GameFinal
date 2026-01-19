@@ -1,2 +1,18 @@
 fileFormatVersion: 2
-guid: 8593c4d637f45c04e8411a0fb105e628
+guid: a2c89790fdf10f0419e9b6a13a9b097b
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences: []
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 191449
+  packageName: Simple Water Shader URP
+  packageVersion: 1.0.0
+  assetPath: Assets/IgniteCoders/Simple Water Shader/Resources/WaterReflection.cs
+  uploadId: 422776
