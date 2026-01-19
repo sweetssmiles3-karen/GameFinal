@@ -3,7 +3,7 @@
 public class EnemyLookAtPlayer : MonoBehaviour
 {
     [Header("Target")]
-    public Transform lookTarget;   // 👈 拖空物体（玩家身上的瞄准点）
+    public Transform lookTarget;   //  拖空物体（玩家身上的瞄准点）
 
     [Header("Rotation")]
     public float rotationSpeed = 5f;

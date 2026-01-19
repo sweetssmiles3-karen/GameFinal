@@ -34,11 +34,11 @@ public class BossAI : MonoBehaviour
 
     void Start()
     {
-        animator = GetComponent<Animator>();       // 🔹 Animator引用
-        bossHealth = GetComponent<BossHealth_UI>(); // 🔹 血量引用
-        agent = GetComponent<NavMeshAgent>();      // 🔹 NavMeshAgent引用
+        animator = GetComponent<Animator>();       //  Animator引用
+        bossHealth = GetComponent<BossHealth_UI>(); //  血量引用
+        agent = GetComponent<NavMeshAgent>();      //  NavMeshAgent引用
 
-        agent.enabled = false; // 🔹 初始不开启NavMesh（Phase1远程攻击原地）
+        agent.enabled = false; //  初始不开启NavMesh（Phase1远程攻击原地）
     }
 
     void Update()
@@ -47,7 +47,7 @@ public class BossAI : MonoBehaviour
 
         float distance = Vector3.Distance(transform.position, player.position);
 
-        // ---------- Phase1逻辑 ----------
+        //Phase1逻辑
         if (!isPhase2)
         {
             if (distance <= detectRange && Time.time >= nextAttackTime)
@@ -68,7 +68,7 @@ public class BossAI : MonoBehaviour
             }
         }
 
-        // ---------- Phase2逻辑 ----------
+        //Phase2逻辑
         if (isPhase2 && !isDead)
         {
             // PowerUp 完成后（Phase2开始）
@@ -108,18 +108,18 @@ public class BossAI : MonoBehaviour
     {
         isPhase2 = true;
 
-        // 🔹 禁用 NavMeshAgent，防止移动
+        //  禁用 NavMeshAgent，防止移动
         if (agent != null)
             agent.enabled = false;
 
-        // 🔹 设置 PowerUp 动画播放速度为 0.5 倍
+        //  设置 PowerUp 动画播放速度为 0.5 倍
         if (animator != null)
         {
-            animator.speed = 0.5f;           // 🔹 全局动画速度减半
+            animator.speed = 0.5f;           //  全局动画速度减半
             animator.SetTrigger("PowerUp");
         }
 
-        // 🔹 血量回满
+        //  血量回满
         if (bossHealth != null)
         {
             bossHealth.isPhase2 = true;
@@ -127,15 +127,15 @@ public class BossAI : MonoBehaviour
             bossHealth.UpdateHealthUI();
         }
 
-        // 🔹 等待 PowerUp 动画播放完（假设动画长度 3 秒，0.5倍速需要 6 秒）
+        //  等待 PowerUp 动画播放完（假设动画长度 3 秒，0.5倍速需要 6 秒）
         float powerUpLength = 3f;            // 原始动画长度
         yield return new WaitForSeconds(powerUpLength / 0.5f); // 0.5倍速播放时间 = 原始 / 0.5 = 6秒
 
-        // 🔹 恢复动画速度为正常
+        //  恢复动画速度为正常
         if (animator != null)
             animator.speed = 1f;
 
-        // 🔹 开启 NavMeshAgent，开始追玩家
+        //  开启 NavMeshAgent，开始追玩家
         if (agent != null)
             agent.enabled = true;
     }
@@ -148,15 +148,15 @@ public class BossAI : MonoBehaviour
     {
         isDead = true;
 
-        // 🔹 禁用NavMesh
+        //  禁用NavMesh
         if (agent != null)
             agent.enabled = false;
 
-        // 🔹 播放死亡动画
+        //  播放死亡动画
         if (animator != null)
             animator.SetTrigger("Dead");
 
-        // 🔹 等待3秒后删除
+        //  等待3秒后删除
         yield return new WaitForSeconds(3f);
         Destroy(gameObject);
     }

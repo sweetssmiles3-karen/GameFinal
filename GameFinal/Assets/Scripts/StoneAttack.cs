@@ -10,23 +10,23 @@ public class EnemyAttackHit : MonoBehaviour
     public Transform player;             // 玩家 Transform
     public Health playerHealth;    // 玩家血量脚本
 
-    // ▶️ 动画事件调用，触发一次伤害
+    //  动画事件调用，触发一次伤害
     public void DealAttackDamage()
     {
-        // 1️⃣ 检查玩家是否存在
+        //检查玩家是否存在
         if (player == null || playerHealth == null)
         {
             Debug.LogWarning("EnemyAttackHit: 玩家未设置！");
             return;
         }
 
-        // 2️⃣ 计算敌人和玩家的距离
+        //计算敌人和玩家的距离
         float distance = Vector3.Distance(transform.position, player.position);
 
-        // 3️⃣ 如果玩家在攻击范围内才造成伤害
+        // 如果玩家在攻击范围内才造成伤害
         if (distance <= attackRange)
         {
-            playerHealth.TakeDamage(damage);  // 🔥 造成伤害
+            playerHealth.TakeDamage(damage);  // 造成伤害
             Debug.Log("Enemy攻击玩家！伤害: " + damage);
         }
         else

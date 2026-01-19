@@ -47,7 +47,7 @@ public class StoneAI : MonoBehaviour
         if (distance <= detectRange && distance > attackRange)
         {
             agent.isStopped = false;
-            if (agent.isOnNavMesh) // 🔹 安全调用
+            if (agent.isOnNavMesh) //  安全调用
                 agent.SetDestination(player.position);
 
             animator.SetBool("run", true);
@@ -55,7 +55,7 @@ public class StoneAI : MonoBehaviour
         // 攻击状态
         else if (distance <= attackRange)
         {
-            agent.isStopped = true;       // 🔹 攻击时停止移动
+            agent.isStopped = true;       //  攻击时停止移动
             animator.SetBool("run", false);
             animator.SetTrigger("attack");
 

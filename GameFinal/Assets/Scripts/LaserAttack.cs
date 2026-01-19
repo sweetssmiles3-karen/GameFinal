@@ -41,7 +41,7 @@ public class LaserDamage : MonoBehaviour
         while (playerHealth != null)
         {
             playerHealth.TakeDamage(damagePerTick);
-            Debug.Log("🔥 Laser Attack! 扣血量: " + damagePerTick);
+            Debug.Log(" Laser Attack! 扣血量: " + damagePerTick);
             yield return new WaitForSeconds(tickInterval);
         }
     }

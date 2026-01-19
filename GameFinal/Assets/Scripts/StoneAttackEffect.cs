@@ -21,15 +21,15 @@ public class StoneAttackEffect : MonoBehaviour
     {
         if (attackEffect == null) return;
 
-        // 🔹 如果上一次还在播放，先停止
+        //  如果上一次还在播放，先停止
         if (currentEffectCoroutine != null)
             StopCoroutine(currentEffectCoroutine);
 
-        // 🔹 重置状态，保证每次都能播放
+        //  重置状态，保证每次都能播放
         attackEffect.SetActive(false);
         attackEffect.SetActive(true);
 
-        // 🔹 自动隐藏特效
+        //  自动隐藏特效
         currentEffectCoroutine = StartCoroutine(HideEffectAfterDelay(effectDuration));
     }
 

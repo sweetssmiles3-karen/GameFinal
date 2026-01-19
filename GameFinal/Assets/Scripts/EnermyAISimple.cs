@@ -33,7 +33,7 @@ public class EnemyAI_Simple : MonoBehaviour
         animator.SetTrigger("attack");
     }
 
-    // 👉 给 Animation Event 用（攻击动画最后一帧调用）
+    //  给 Animation Event 用（攻击动画最后一帧调用）
     public void EndAttack()
     {
         isAttacking = false;

@@ -9,10 +9,10 @@ public class EnemyHealthBar : MonoBehaviour
     void Start()
     {
         if (enemyHealth == null)
-            Debug.LogError("❌ EnemyHealthBar 找不到 EnermyHealth");
+            Debug.LogError(" EnemyHealthBar 找不到 EnermyHealth");
 
         if (fillImage == null)
-            Debug.LogError("❌ EnemyHealthBar 找不到 Fill Image");
+            Debug.LogError(" EnemyHealthBar 找不到 Fill Image");
     }
 
     void Update()

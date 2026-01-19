@@ -19,7 +19,7 @@ public class HesitationAdapter : MonoBehaviour
         agent = GetComponent<NavMeshAgent>();
         if (agent != null)
         {
-            agent.enabled = false; // 🔹 开局禁用NavMeshAgent
+            agent.enabled = false; //  开局禁用NavMeshAgent
         }
 
         if (player == null)
@@ -48,14 +48,14 @@ public class HesitationAdapter : MonoBehaviour
     {
         isHesitating = true;
 
-        // 🔹 调用UI闪烁
+        // 调用UI闪烁
         if (headUIFlash != null)
             headUIFlash.FlashUI();
 
-        // 🔹 等待停顿时间
+        //  等待停顿时间
         yield return new WaitForSeconds(hesitationTime);
 
-        // 🔹 停顿结束，启用 NavMeshAgent，让 EnemyAI 自动开始追击
+        //  停顿结束，启用 NavMeshAgent，让 EnemyAI 自动开始追击
         if (agent != null)
             agent.enabled = true;
 

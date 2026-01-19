@@ -26,7 +26,7 @@ public class EnemyAttackEffectController : MonoBehaviour
         }
     }
 
-    // ▶️ 动画事件调用：开始播放所有特效
+    //  动画事件调用：开始播放所有特效
     public void PlayAttackEffect()
     {
         if (attackEffects != null)
@@ -39,7 +39,7 @@ public class EnemyAttackEffectController : MonoBehaviour
         }
     }
 
-    // ⛔ 动画事件调用：停止所有特效
+    //  动画事件调用：停止所有特效
     public void StopAttackEffect()
     {
         if (attackEffects != null)

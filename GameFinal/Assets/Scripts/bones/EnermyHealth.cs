@@ -44,7 +44,7 @@ public class EnermyHealth : MonoBehaviour
 
         if (enemyAI != null)
         {
-            enemyAI.Die();   //  调用你刚刚写的死亡逻辑
+            enemyAI.Die();   //  调用刚刚的死亡逻辑
         }
     }
 }

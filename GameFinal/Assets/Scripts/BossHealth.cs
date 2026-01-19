@@ -16,7 +16,7 @@ public class BossHealth_UI : MonoBehaviour
     public bool isPhase2 = false;
     public int currentHP;
     private bool isDead = false;
-    private bool phase2Triggered = false; // 🔹 避免重复触发Phase2
+    private bool phase2Triggered = false; //  避免重复触发Phase2
 
     private Animator animator;
 
@@ -39,7 +39,7 @@ public class BossHealth_UI : MonoBehaviour
         // Phase1 -> Phase2
         if (!isPhase2 && currentHP <= 0 && !phase2Triggered)
         {
-            phase2Triggered = true; // 🔹 标记已触发
+            phase2Triggered = true; //  标记已触发
             StartCoroutine(EnterPhase2());
         }
         // Phase2死亡
@@ -62,7 +62,7 @@ public class BossHealth_UI : MonoBehaviour
 
     private IEnumerator EnterPhase2()
     {
-        Debug.Log("💥 Boss进入第二阶段！");
+        Debug.Log(" Boss进入第二阶段！");
         isPhase2 = true;
 
         // 播放 PhaseChange / PowerUp 动画
@@ -82,7 +82,7 @@ public class BossHealth_UI : MonoBehaviour
         if (isDead) return;
 
         isDead = true;
-        Debug.Log("💀 Boss死亡");
+        Debug.Log(" Boss死亡");
 
         // 播放死亡动画
         if (animator != null)
