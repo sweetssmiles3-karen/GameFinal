@@ -30,6 +30,10 @@ public class PlayerHealth : MonoBehaviour, IDamageable
     private AudioSource audioSource; // <--- NEW: The Speaker
     private bool isDead = false;
 
+    [Header("UI References")]
+    public UnityEngine.UI.Image healthFill;   // Health bar Fill
+    public UnityEngine.UI.Text healthText;    // Health bar Text
+
     void Start()
     {
         currentHealth = maxHealth;
@@ -123,5 +127,19 @@ public class PlayerHealth : MonoBehaviour, IDamageable
         if (col != null) col.enabled = false;
 
         Debug.Log("Player Died.");
+    }
+    public void UpdateHealthUI()
+    {
+     
+
+        if (healthFill != null)
+            healthFill.fillAmount = (float)currentHealth / maxHealth;
+
+        if (healthText != null)
+            healthText.text = currentHealth + " / " + maxHealth;
+    }
+    void Update()
+    {
+        UpdateHealthUI();
     }
 }

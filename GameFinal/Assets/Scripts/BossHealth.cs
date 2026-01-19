@@ -2,7 +2,7 @@
 using UnityEngine.UI;
 using System.Collections;
 
-public class BossHealth_UI : MonoBehaviour
+public class BossHealth_UI : MonoBehaviour, IDamageable
 {
     [Header("阶段血量")]
     public int maxHPPhase1 = 800;
@@ -19,18 +19,20 @@ public class BossHealth_UI : MonoBehaviour
     private bool phase2Triggered = false; // 🔹 避免重复触发Phase2
 
     private Animator animator;
-
+    public GameObject dialog;
     void Start()
     {
         animator = GetComponent<Animator>();
         currentHP = maxHPPhase1;
         UpdateHealthUI();
+        if(dialog!=null)
+            dialog.SetActive(false);
     }
 
-    public void TakeDamage(int damage)
+    public void TakeDamage(float damagef)
     {
         if (isDead) return;
-
+        int damage = Mathf.RoundToInt(damagef);
         currentHP -= damage;
         currentHP = Mathf.Max(currentHP, 0);
 
@@ -77,9 +79,9 @@ public class BossHealth_UI : MonoBehaviour
         UpdateHealthUI();
     }
 
-    private void Die()
+    private IEnumerable Die()
     {
-        if (isDead) return;
+        if (isDead) yield break;
 
         isDead = true;
         Debug.Log("💀 Boss死亡");
@@ -87,5 +89,12 @@ public class BossHealth_UI : MonoBehaviour
         // 播放死亡动画
         if (animator != null)
             animator.SetTrigger("dead");
+        if(dialog!=null)
+            dialog.SetActive(true);
+
+        yield return new WaitForSeconds(3f);
+
+        CurrentSceneLoader.Instance.TriggerLevelTransition();
+
     }
 }
