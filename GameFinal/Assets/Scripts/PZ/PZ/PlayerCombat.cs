@@ -5,6 +5,17 @@ using UnityEngine.Events;
 
 public class PlayerCombat : MonoBehaviour
 {
+    [Header("Audio SFX - Cast")]
+    public AudioClip[] comboSounds;
+    public AudioClip meleeAttackSound;
+    public AudioClip skillGSound;
+    public AudioClip reloadSound;
+
+    [Header("Audio SFX - Impacts")]
+    public AudioClip rangedImpactSound;
+    public AudioClip lightningHitSound;
+    public AudioClip grenadeExplosionSound;
+
     [Header("Mana Settings")]
     public float maxMana = 40f;
     public float currentMana;
@@ -50,6 +61,7 @@ public class PlayerCombat : MonoBehaviour
     private Animator anim;
     private PlayerMovement movement;
     private PlayerHealth myHealth;
+    private AudioSource audioSource;
 
     private int comboStep = 0;
     private float lastAttackTime = 0f;
@@ -62,6 +74,7 @@ public class PlayerCombat : MonoBehaviour
         anim = GetComponent<Animator>();
         movement = GetComponent<PlayerMovement>();
         myHealth = GetComponent<PlayerHealth>();
+        audioSource = GetComponent<AudioSource>();
 
         currentMana = maxMana;
         OnManaChanged?.Invoke(currentMana / maxMana);
@@ -69,10 +82,16 @@ public class PlayerCombat : MonoBehaviour
 
     void Update()
     {
+        // 1. MANA REGEN CANCELLATION CHECK
         if (isReloading)
         {
-            bool isMoving = (Input.GetAxis("Horizontal") != 0 || Input.GetAxis("Vertical") != 0);
-            bool isClicking = (Input.GetMouseButtonDown(0) || Input.GetMouseButtonDown(1) || Input.GetKeyDown(KeyCode.G));
+            // Use a tiny deadzone (0.1) to prevent accidental stops
+            bool isMoving = Mathf.Abs(Input.GetAxis("Horizontal")) > 0.1f ||
+                            Mathf.Abs(Input.GetAxis("Vertical")) > 0.1f;
+
+            bool isClicking = Input.GetMouseButtonDown(0) ||
+                              Input.GetMouseButtonDown(1) ||
+                              Input.GetKeyDown(KeyCode.G);
 
             if (isMoving || isClicking)
             {
@@ -80,6 +99,7 @@ public class PlayerCombat : MonoBehaviour
             }
         }
 
+        // 2. CHECK COMBO RESET
         if (Time.time - lastAttackTime > comboResetTime && comboStep != 0)
         {
             comboStep = 0;
@@ -89,6 +109,7 @@ public class PlayerCombat : MonoBehaviour
         if (isAttacking) return;
         if (Time.time < lastAttackTime + currentCooldown) return;
 
+        // LEFT CLICK
         if (Input.GetMouseButtonDown(0))
         {
             if (currentMana >= leftClickManaCost)
@@ -104,6 +125,7 @@ public class PlayerCombat : MonoBehaviour
             }
         }
 
+        // RIGHT CLICK
         if (Input.GetMouseButtonDown(1))
         {
             if (currentMana >= rightClickManaCost)
@@ -115,18 +137,21 @@ public class PlayerCombat : MonoBehaviour
             }
             else
             {
-                Debug.Log("Not enough Mana!"); 
+                Debug.Log("Not enough Mana!");
             }
         }
 
+        // RELOAD (Key R)
         if (Input.GetKeyDown(KeyCode.R))
         {
+            // Only start if NOT reloading AND mana is not full
             if (!isReloading && currentMana < maxMana)
             {
                 StartCoroutine(ReloadManaRoutine());
             }
         }
 
+        // G SKILL
         if (Input.GetKeyDown(KeyCode.G))
         {
             if (currentMana >= grenadeManaCost)
@@ -143,15 +168,25 @@ public class PlayerCombat : MonoBehaviour
         }
     }
 
+    // --- MANA REGEN LOGIC (Reverted to Trigger) ---
     IEnumerator ReloadManaRoutine()
     {
         isReloading = true;
-
         lastAttackTime = Time.time;
         currentCooldown = 0.5f;
 
+        // 1. Play Animation ONCE (Trigger)
         anim.SetTrigger("Reload");
 
+        // 2. Play Sound (Looping while logic runs)
+        if (audioSource != null && reloadSound != null)
+        {
+            audioSource.clip = reloadSound;
+            audioSource.loop = true;
+            audioSource.Play();
+        }
+
+        // 3. Regen Loop
         while (isReloading && currentMana < maxMana)
         {
             yield return new WaitForSeconds(manaRegenInterval);
@@ -159,12 +194,18 @@ public class PlayerCombat : MonoBehaviour
             if (isReloading)
             {
                 currentMana += manaRegenAmount;
-                if (currentMana > maxMana) currentMana = maxMana;
+                // Cap Mana
+                if (currentMana >= maxMana)
+                {
+                    currentMana = maxMana;
+                    OnManaChanged?.Invoke(currentMana / maxMana);
+                    StopReloading(); // Done!
+                    yield break;
+                }
+
                 OnManaChanged?.Invoke(currentMana / maxMana);
             }
         }
-
-        isReloading = false;
     }
 
     void StopReloading()
@@ -173,13 +214,24 @@ public class PlayerCombat : MonoBehaviour
         {
             isReloading = false;
             StopCoroutine("ReloadManaRoutine");
+
+            // Stop Sound
+            if (audioSource != null)
+            {
+                audioSource.loop = false;
+                audioSource.Stop();
+            }
+
+            // Note: Since we use Trigger "R", the animation will just finish naturally 
+            // or transition back to Idle automatically based on your Animator setup.
         }
     }
+
+    // --- COMBAT COROUTINES ---
 
     IEnumerator PerformRangedCombo()
     {
         anim.ResetTrigger("Attack");
-
         lastAttackTime = Time.time;
         comboStep++;
         if (comboStep > 3) comboStep = 1;
@@ -189,6 +241,12 @@ public class PlayerCombat : MonoBehaviour
 
         anim.SetInteger("ComboInt", comboStep);
         anim.SetTrigger("Attack");
+
+        if (audioSource != null && comboSounds.Length >= comboStep)
+        {
+            int soundIndex = comboStep - 1;
+            if (comboSounds[soundIndex] != null) audioSource.PlayOneShot(comboSounds[soundIndex]);
+        }
 
         float currentDelay = 0.3f;
         if (rangedImpactDelays.Length >= 3) currentDelay = rangedImpactDelays[comboStep - 1];
@@ -205,13 +263,16 @@ public class PlayerCombat : MonoBehaviour
             if (rangedHitEffect != null)
                 Instantiate(rangedHitEffect, target.position + Vector3.up, Quaternion.identity);
 
+            if (audioSource != null && rangedImpactSound != null)
+            {
+                audioSource.PlayOneShot(rangedImpactSound);
+            }
+
             float dmg = rangedDamage;
             if (comboStep == 3) dmg *= 2;
 
             IDamageable enemyHealth = target.GetComponent<IDamageable>();
             if (enemyHealth != null) enemyHealth.TakeDamage(dmg);
-            else Debug.LogWarning("Target does not implement IDamageable");
-            Debug.Log("Ranged hit: " + target.name);
         }
     }
 
@@ -227,6 +288,8 @@ public class PlayerCombat : MonoBehaviour
         if (myHealth != null) myHealth.isInvulnerable = true;
 
         anim.SetTrigger("CriticalAttack");
+
+        if (audioSource != null && meleeAttackSound != null) audioSource.PlayOneShot(meleeAttackSound);
 
         yield return new WaitForSeconds(meleeImpactDelay);
 
@@ -244,7 +307,12 @@ public class PlayerCombat : MonoBehaviour
                 if (target != null)
                 {
                     target.TakeDamage(meleeDamage);
-                    Debug.Log("Melee hit: " + enemyObject.name);
+
+                    if (audioSource != null && lightningHitSound != null)
+                    {
+                        audioSource.PlayOneShot(lightningHitSound);
+                    }
+
                     if (meleeHitEffect != null)
                     {
                         Vector3 spawnPos = enemyObject.transform.position + (Vector3.up * lightningYOffset);
@@ -252,10 +320,6 @@ public class PlayerCombat : MonoBehaviour
                     }
                     alreadyHitList.Add(enemyObject);
                     hitCount++;
-                }
-                else
-                {
-                    Debug.LogWarning("Target does not implement IDamageable");
                 }
             }
         }
@@ -275,6 +339,9 @@ public class PlayerCombat : MonoBehaviour
         currentCooldown = grenadeCooldown;
 
         anim.SetTrigger("Grenade");
+
+        if (audioSource != null && skillGSound != null) audioSource.PlayOneShot(skillGSound);
+
         if (movement != null) movement.canMove = false;
 
         yield return new WaitForSeconds(grenadeCastDelay);
@@ -284,11 +351,15 @@ public class PlayerCombat : MonoBehaviour
 
         if (grenadeEffect != null) Instantiate(grenadeEffect, spawnPos, Quaternion.identity);
 
+        if (audioSource != null && grenadeExplosionSound != null)
+        {
+            audioSource.PlayOneShot(grenadeExplosionSound);
+        }
+
         Collider[] hitEnemies = Physics.OverlapSphere(spawnPos, grenadeRadius, enemyLayer);
         foreach (Collider collider in hitEnemies)
         {
             IDamageable target = collider.GetComponent<IDamageable>();
-            Debug.Log("G-Bomb hit: " + collider.gameObject.name);
             if (target != null) target.TakeDamage(grenadeDamage);
         }
 

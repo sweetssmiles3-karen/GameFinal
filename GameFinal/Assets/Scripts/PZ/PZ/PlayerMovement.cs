@@ -13,22 +13,27 @@ public class PlayerMovement : MonoBehaviour
     [Header("Dash Settings")]
     public float dashSpeed = 15f;
     public float dashDuration = 0.2f;
-    public float dashCooldown = 1.5f; 
+    public float dashCooldown = 1.5f;
 
     [Header("Camera Settings")]
     public Transform cameraTransform;
 
+    [Header("Audio SFX")] // <--- NEW: Drag Audio Clip Here
+    public AudioClip dashSound;
+
     // Internal Variables
     private CharacterController controller;
     private Animator anim;
+    private AudioSource audioSource; // <--- NEW: The Speaker
     private Vector3 velocity;
     private bool isDashing = false;
-    private float lastDashTime = -100f; 
+    private float lastDashTime = -100f;
 
     void Start()
     {
         anim = GetComponent<Animator>();
         controller = GetComponent<CharacterController>();
+        audioSource = GetComponent<AudioSource>(); // <--- NEW: Find AudioSource
 
         if (cameraTransform == null)
         {
@@ -70,10 +75,7 @@ public class PlayerMovement : MonoBehaviour
             velocity.y = Mathf.Sqrt(2f * -2f * gravity);
         }
 
-        
         // 3. DASH WITH COOLDOWN
-        
-        // Condition: F pressed + Not currently dashing + Cooldown finished
         if (Input.GetKeyDown(KeyCode.F) && !isDashing && Time.time >= lastDashTime + dashCooldown)
         {
             StartCoroutine(DashRoutine());
@@ -87,9 +89,15 @@ public class PlayerMovement : MonoBehaviour
     IEnumerator DashRoutine()
     {
         isDashing = true;
-        lastDashTime = Time.time; // Record the time we started dashing
+        lastDashTime = Time.time;
 
         anim.SetTrigger("Dash");
+
+        // <--- NEW: Play Sound Logic ---
+        if (audioSource != null && dashSound != null)
+        {
+            audioSource.PlayOneShot(dashSound);
+        }
 
         float startTime = Time.time;
         while (Time.time < startTime + dashDuration)
