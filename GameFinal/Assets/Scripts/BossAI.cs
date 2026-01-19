@@ -53,7 +53,7 @@ public class BossAI : MonoBehaviour
             if (distance <= detectRange && Time.time >= nextAttackTime)
             {
                 Vector3 lookDir = player.position - transform.position;
-                lookDir.y = 0;
+                
 
                 if (lookDir.sqrMagnitude > 0.001f)
                     transform.rotation = Quaternion.LookRotation(lookDir);
