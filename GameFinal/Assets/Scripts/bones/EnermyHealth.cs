@@ -1,11 +1,11 @@
 ﻿using UnityEngine;
 
-public class EnermyHealth : MonoBehaviour
+public class EnermyHealth : MonoBehaviour,IDamageable
 {
     [Header("Health Settings")]
     public int maxHP = 20;   // Inspector 可改
 
-    private int currentHP;
+    public int currentHP;
 
     private EnemyAI enemyAI;
 
@@ -20,13 +20,14 @@ public class EnermyHealth : MonoBehaviour
         enemyAI = GetComponent<EnemyAI>();
         if (enemyAI == null)
         {
-            Debug.LogError("❌ EnermyHealth 找不到 EnemyAI");
+            Debug.LogError(" EnermyHealth 找不到 EnemyAI");
         }
     }
 
     // 被外部调用（比如玩家攻击）
-    public void TakeDamage(int damage)
+    public void TakeDamage(float damage1)
     {
+        int   damage = Mathf.RoundToInt(damage1);
         if (currentHP <= 0) return;
 
         currentHP -= damage;
@@ -40,11 +41,11 @@ public class EnermyHealth : MonoBehaviour
 
     void Die()
     {
-        Debug.Log("💀 Enemy 死亡");
+        Debug.Log(" Enemy 死亡");
 
         if (enemyAI != null)
         {
-            enemyAI.Die();   // 🔥 调用你刚刚写的死亡逻辑
+            enemyAI.Die();   //  调用你刚刚写的死亡逻辑
         }
     }
 }
