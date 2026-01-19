@@ -1,5 +1,4 @@
 using UnityEngine;
-
 public class TextManager : MonoBehaviour
 {
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -17,8 +16,10 @@ public class TextManager : MonoBehaviour
     }
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Space)) {//go next text
-            if (textmode) {
+        if (Input.GetKeyDown(KeyCode.Y))
+        {//go next text
+            if (textmode)
+            {
                 if (textnumber < textmax - 1)
                 {
                     text[textnumber].SetActive(false);
@@ -29,20 +30,19 @@ public class TextManager : MonoBehaviour
                 {
                     text[textnumber].SetActive(false);
                     textmode = false;
+                    CurrentSceneLoader.Instance.TriggerLevelTransition();
                 }
-                }
-            
-        }
-        
-    }
+            }
 
+        }
+
+    }
     // Update is called once per frame
     private void OnTriggerEnter(Collider other)
     {
         Debug.Log("Trigger detected with " + other.gameObject.name);
-        CurrentSceneLoader.Instance.TriggerLevelTransition();
-       // textmode = true;
-      //  text[textnumber].SetActive(true);
+       
+        textmode = true;
+        text[textnumber].SetActive(true);
     }
-
 }
