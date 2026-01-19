@@ -6,7 +6,7 @@ public class PlayerMovement : MonoBehaviour
     public bool canMove = true;
 
     [Header("Movement Settings")]
-    public float moveSpeed = 5f;
+    public float baseMoveSpeed = 5f;
     public float rotSpeed = 10f;
     public float gravity = -9.81f;
 
@@ -22,6 +22,7 @@ public class PlayerMovement : MonoBehaviour
     public AudioClip dashSound;
 
     // Internal Variables
+    private float speedMultiplier = 1f;
     private CharacterController controller;
     private Animator anim;
     private AudioSource audioSource; // <--- NEW: The Speaker
@@ -61,7 +62,9 @@ public class PlayerMovement : MonoBehaviour
             transform.rotation = Quaternion.Euler(0f, angle, 0f);
 
             Vector3 moveDir = Quaternion.Euler(0f, targetAngle, 0f) * Vector3.forward;
-            controller.Move(moveDir.normalized * moveSpeed * Time.deltaTime);
+            float finalSpeed = baseMoveSpeed * speedMultiplier;
+            controller.Move(moveDir.normalized * finalSpeed * Time.deltaTime);
+
         }
 
         anim.SetFloat("Speed", direction.magnitude, 0.1f, Time.deltaTime);
@@ -107,4 +110,11 @@ public class PlayerMovement : MonoBehaviour
         }
         isDashing = false;
     }
+
+    // 给外部IceTrap调用
+    public void SetSpeedMultiplier(float multiplier)
+    {
+        speedMultiplier = Mathf.Clamp(multiplier, 0f, 2f);
+    }
+
 }

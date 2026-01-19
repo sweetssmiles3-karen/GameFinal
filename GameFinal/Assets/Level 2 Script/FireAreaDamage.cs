@@ -28,7 +28,7 @@ public class FireAreaDamage : MonoBehaviour
 
     private IEnumerator DamageLoop(Collider player)
     {
-        Health health = player.GetComponent<Health>();
+        PlayerHealth health = player.GetComponent<PlayerHealth>();
         if (health == null) yield break;
 
         while (true)

@@ -29,7 +29,7 @@ public class IceTrap : MonoBehaviour
 
     [Header("Damage / Slow Settings")]
     public int iceDamage = 5;          
-    public float slowPercent = 0.5f;     // 减速比例（0-1）
+    public float slowPercent = 0.6f;     // 减速比例（0-1）
 
     private bool triggered = false;
     private Coroutine slowCoroutine;
@@ -75,6 +75,16 @@ public class IceTrap : MonoBehaviour
         // 激活冰区（伤害 + 减速）
         if (iceArea != null) iceArea.SetActive(true);
         if (iceAreaVFX != null) iceAreaVFX.SetActive(true);
+
+        // 恢复速度（防止异常）
+        GameObject player = GameObject.FindGameObjectWithTag("Player");
+        if (player != null)
+        {
+            PlayerMovement movement = player.GetComponent<PlayerMovement>();
+            if (movement != null)
+                movement.SetSpeedMultiplier(1f);
+        }
+
 
         // 冰区持续 iceAreaDuration 秒后消失
         yield return new WaitForSeconds(iceAreaDuration);
@@ -136,10 +146,15 @@ public class IceTrap : MonoBehaviour
     {
         if (!other.CompareTag("Player")) return;
 
+        PlayerMovement movement = other.GetComponent<PlayerMovement>();
+
         if (slowCoroutine != null)
         {
             StopCoroutine(slowCoroutine);
             slowCoroutine = null;
+
+            if (movement != null)
+                movement.SetSpeedMultiplier(1f);
         }
 
         if (damageCoroutine != null)
@@ -155,20 +170,29 @@ public class IceTrap : MonoBehaviour
         }
     }
 
+
     // 持续减速协程
     private IEnumerator SlowEffectCoroutine(Collider player)
     {
+        PlayerMovement movement = player.GetComponent<PlayerMovement>();
+        if (movement == null) yield break;
+
+        // 应用减速
+        movement.SetSpeedMultiplier(1f - slowPercent);
+
+        // 只要冰区存在，就一直保持减速
         while (iceArea != null && iceArea.activeSelf)
         {
-            yield return new WaitForSeconds(0.5f);
+            yield return null;
         }
-        slowCoroutine = null;
+
     }
+
 
     // 持续伤害协程
     private IEnumerator ApplyIceDamage(Collider player)
     {
-        Health health = player.GetComponent<Health>();
+        PlayerHealth health = player.GetComponent<PlayerHealth>();
         if (health == null) yield break;
 
         while (iceArea != null && iceArea.activeSelf)
