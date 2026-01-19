@@ -17,7 +17,9 @@ public class TP : MonoBehaviour
     private IEnumerator TeleportSequence()
     {
         // 1. 屏幕变黑（淡出）
-        yield return StartCoroutine(screenFader.FadeOut());
+        yield return StartCoroutine(screenFader.FadeIn());
+
+        yield return new WaitForSeconds(screenFader.fadeDuration); // 使用淡出持续时间
 
         // 2. 执行传送（瞬移）
         if (item != null && destination != null)
@@ -26,7 +28,7 @@ public class TP : MonoBehaviour
         }
 
         // 3. 屏幕恢复（淡入）
-        yield return StartCoroutine(screenFader.FadeIn());
+        yield return StartCoroutine(screenFader.FadeOut());
     }
    public void normalTeleport()
     {
@@ -35,5 +37,12 @@ public class TP : MonoBehaviour
             item.transform.position = destination.transform.position;
         }
     }
+    private void OnTriggerEnter(Collider other)
+    {
+        Debug.Log("Trigger detected with " + other.gameObject.name);
+ 
+        StartTeleport();
+    }
+
 
 }
