@@ -5,16 +5,16 @@ using UnityEngine.Events;
 
 public class PlayerCombat : MonoBehaviour
 {
-    [Header("Audio SFX - Cast (When you click)")]
-    public AudioClip[] comboSounds;        // Left Click Cast Sounds (1, 2, 3)
-    public AudioClip meleeAttackSound;     // Right Click Cast (Whoosh)
-    public AudioClip skillGSound;          // G Skill Cast (Charging up)
-    public AudioClip reloadSound;          // Reload Sound
+    [Header("Audio SFX - Cast")]
+    public AudioClip[] comboSounds;
+    public AudioClip meleeAttackSound;
+    public AudioClip skillGSound;
+    public AudioClip reloadSound;
 
-    [Header("Audio SFX - Impacts (When you hit)")]
-    public AudioClip rangedImpactSound;    // <--- NEW: Left Click Hit Sound
-    public AudioClip lightningHitSound;    // Right Click Hit Sound (Zap)
-    public AudioClip grenadeExplosionSound;// <--- NEW: G-Bomb Explosion Sound
+    [Header("Audio SFX - Impacts")]
+    public AudioClip rangedImpactSound;
+    public AudioClip lightningHitSound;
+    public AudioClip grenadeExplosionSound;
 
     [Header("Mana Settings")]
     public float maxMana = 40f;
@@ -82,8 +82,10 @@ public class PlayerCombat : MonoBehaviour
 
     void Update()
     {
+        // 1. MANA REGEN CANCELLATION
         if (isReloading)
         {
+            // If player moves, clicks, or casts G, stop reloading
             bool isMoving = (Input.GetAxis("Horizontal") != 0 || Input.GetAxis("Vertical") != 0);
             bool isClicking = (Input.GetMouseButtonDown(0) || Input.GetMouseButtonDown(1) || Input.GetKeyDown(KeyCode.G));
 
@@ -134,9 +136,10 @@ public class PlayerCombat : MonoBehaviour
             }
         }
 
-        // RELOAD
+        // RELOAD (Key R)
         if (Input.GetKeyDown(KeyCode.R))
         {
+            // Only start if not reloading AND mana is not full
             if (!isReloading && currentMana < maxMana)
             {
                 StartCoroutine(ReloadManaRoutine());
@@ -160,16 +163,26 @@ public class PlayerCombat : MonoBehaviour
         }
     }
 
+    // --- MANA REGEN LOGIC (UPDATED FOR LOOP) ---
     IEnumerator ReloadManaRoutine()
     {
         isReloading = true;
         lastAttackTime = Time.time;
         currentCooldown = 0.5f;
 
-        anim.SetTrigger("Reload");
+        // 1. START ANIMATION LOOP
+        // Note: You must create a Bool parameter named "IsReloading" in Animator!
+        anim.SetBool("IsReloading", true);
 
-        if (audioSource != null && reloadSound != null) audioSource.PlayOneShot(reloadSound);
+        // 2. START SOUND LOOP
+        if (audioSource != null && reloadSound != null)
+        {
+            audioSource.clip = reloadSound;
+            audioSource.loop = true; // Make it repeat continuously
+            audioSource.Play();
+        }
 
+        // 3. REGEN LOOP
         while (isReloading && currentMana < maxMana)
         {
             yield return new WaitForSeconds(manaRegenInterval);
@@ -177,12 +190,18 @@ public class PlayerCombat : MonoBehaviour
             if (isReloading)
             {
                 currentMana += manaRegenAmount;
-                if (currentMana > maxMana) currentMana = maxMana;
+                // If full, cap it and stop
+                if (currentMana >= maxMana)
+                {
+                    currentMana = maxMana;
+                    OnManaChanged?.Invoke(currentMana / maxMana);
+                    StopReloading(); // <--- Auto-stop when full
+                    yield break;     // Exit the loop
+                }
+
                 OnManaChanged?.Invoke(currentMana / maxMana);
             }
         }
-
-        isReloading = false;
     }
 
     void StopReloading()
@@ -191,8 +210,20 @@ public class PlayerCombat : MonoBehaviour
         {
             isReloading = false;
             StopCoroutine("ReloadManaRoutine");
+
+            // 1. STOP ANIMATION
+            anim.SetBool("IsReloading", false);
+
+            // 2. STOP SOUND
+            if (audioSource != null)
+            {
+                audioSource.loop = false;
+                audioSource.Stop();
+            }
         }
     }
+
+    // --- COMBAT COROUTINES (SAME AS BEFORE) ---
 
     IEnumerator PerformRangedCombo()
     {
@@ -207,7 +238,6 @@ public class PlayerCombat : MonoBehaviour
         anim.SetInteger("ComboInt", comboStep);
         anim.SetTrigger("Attack");
 
-        // 1. Play CAST Sound (Combo 1, 2, or 3)
         if (audioSource != null && comboSounds.Length >= comboStep)
         {
             int soundIndex = comboStep - 1;
@@ -229,7 +259,6 @@ public class PlayerCombat : MonoBehaviour
             if (rangedHitEffect != null)
                 Instantiate(rangedHitEffect, target.position + Vector3.up, Quaternion.identity);
 
-            // 2. Play IMPACT Sound (Hit)
             if (audioSource != null && rangedImpactSound != null)
             {
                 audioSource.PlayOneShot(rangedImpactSound);
@@ -256,7 +285,6 @@ public class PlayerCombat : MonoBehaviour
 
         anim.SetTrigger("CriticalAttack");
 
-        // 1. Play CAST Sound (Swing)
         if (audioSource != null && meleeAttackSound != null) audioSource.PlayOneShot(meleeAttackSound);
 
         yield return new WaitForSeconds(meleeImpactDelay);
@@ -276,7 +304,6 @@ public class PlayerCombat : MonoBehaviour
                 {
                     target.TakeDamage(meleeDamage);
 
-                    // 2. Play HIT Sound (Lightning Zap)
                     if (audioSource != null && lightningHitSound != null)
                     {
                         audioSource.PlayOneShot(lightningHitSound);
@@ -309,7 +336,6 @@ public class PlayerCombat : MonoBehaviour
 
         anim.SetTrigger("Grenade");
 
-        // 1. Play CAST Sound (Charge Up)
         if (audioSource != null && skillGSound != null) audioSource.PlayOneShot(skillGSound);
 
         if (movement != null) movement.canMove = false;
@@ -321,7 +347,6 @@ public class PlayerCombat : MonoBehaviour
 
         if (grenadeEffect != null) Instantiate(grenadeEffect, spawnPos, Quaternion.identity);
 
-        // 2. Play EXPLOSION Sound (Boom)
         if (audioSource != null && grenadeExplosionSound != null)
         {
             audioSource.PlayOneShot(grenadeExplosionSound);
