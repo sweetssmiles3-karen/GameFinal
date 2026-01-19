@@ -191,7 +191,6 @@ GameObject:
   m_Component:
   - component: {fileID: 13555768}
   - component: {fileID: 13555771}
-  - component: {fileID: 13555770}
   - component: {fileID: 13555769}
   - component: {fileID: 13555772}
   - component: {fileID: 13555773}
@@ -229,19 +228,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 301d850ece4889f40bf79976df127e90, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &13555770
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 13555767}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 019371b334cb84944b8c7b7a5fcab592, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  pausePanel: {fileID: 0}
 --- !u!114 &13555771
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2368,6 +2354,7 @@ GameObject:
   - component: {fileID: 289575646}
   - component: {fileID: 289575645}
   - component: {fileID: 289575644}
+  - component: {fileID: 289575647}
   m_Layer: 5
   m_Name: restart
   m_TagString: Untagged
@@ -2437,7 +2424,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 289575645}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 289575647}
+        m_TargetAssemblyTypeName: CurrentSceneLoader, Assembly-CSharp
+        m_MethodName: TriggerLevelTransition
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 1
 --- !u!114 &289575645
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2476,6 +2475,19 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 289575642}
   m_CullTransparentMesh: 1
+--- !u!114 &289575647
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 289575642}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 72cf647722f577f4a90e8fea5e54918a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  NextSceneName: Loading to level 1
 --- !u!1001 &296043807
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -3588,6 +3600,14 @@ PrefabInstance:
       propertyPath: m_Name
       value: PLAYER
       objectReference: {fileID: 0}
+    - target: {fileID: 7464847920413426658, guid: ec32a5d46a374e442a0ec10b958a2277, type: 3}
+      propertyPath: player
+      value: 
+      objectReference: {fileID: 1383971957}
+    - target: {fileID: 7464847920413426658, guid: ec32a5d46a374e442a0ec10b958a2277, type: 3}
+      propertyPath: playerVisual
+      value: 
+      objectReference: {fileID: 1383971957}
     - target: {fileID: 7646009051156522768, guid: ec32a5d46a374e442a0ec10b958a2277, type: 3}
       propertyPath: cameraTransform
       value: 
@@ -5018,7 +5038,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 019371b334cb84944b8c7b7a5fcab592, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  pausePanel: {fileID: 0}
+  pausePanel: {fileID: 408151237}
 --- !u!4 &495083865
 Transform:
   m_ObjectHideFlags: 0
@@ -11537,7 +11557,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1062586867}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 495083864}
+        m_TargetAssemblyTypeName: PauseManager, Assembly-CSharp
+        m_MethodName: TogglePause
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 1
 --- !u!114 &1062586867
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -15380,6 +15412,11 @@ PrefabInstance:
 Transform:
   m_CorrespondingSourceObject: {fileID: 1505679134961614741, guid: a81a0fe017bf8a944a5540d5d1d5f200, type: 3}
   m_PrefabInstance: {fileID: 1378172379}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &1383971957 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 8331308409764480802, guid: ec32a5d46a374e442a0ec10b958a2277, type: 3}
+  m_PrefabInstance: {fileID: 358834616}
   m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1405788864
 PrefabInstance:
@@ -19550,6 +19587,7 @@ GameObject:
   - component: {fileID: 1757134517}
   - component: {fileID: 1757134516}
   - component: {fileID: 1757134515}
+  - component: {fileID: 1757134518}
   m_Layer: 5
   m_Name: exit
   m_TagString: Untagged
@@ -19619,7 +19657,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1757134516}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1757134518}
+        m_TargetAssemblyTypeName: QUIT, Assembly-CSharp
+        m_MethodName: quitgame
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1757134516
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -19658,6 +19708,18 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1757134513}
   m_CullTransparentMesh: 1
+--- !u!114 &1757134518
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1757134513}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 301d850ece4889f40bf79976df127e90, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &1760397906
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -25041,7 +25103,9 @@ SceneRoots:
   m_Roots:
   - {fileID: 201283633563372132}
   - {fileID: 241559868}
+  - {fileID: 2062352473}
   - {fileID: 13555768}
+  - {fileID: 495083865}
   - {fileID: 358834616}
   - {fileID: 410087041}
   - {fileID: 832575519}
@@ -25073,5 +25137,3 @@ SceneRoots:
   - {fileID: 784939887}
   - {fileID: 271484708}
   - {fileID: 1167946645}
-  - {fileID: 495083865}
-  - {fileID: 2062352473}

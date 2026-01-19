@@ -10,6 +10,8 @@ public class PauseManager : MonoBehaviour
     {
         // 初始隐藏暂停界面
         if (pausePanel != null) pausePanel.SetActive(false);
+        Cursor.visible = false;
+        Cursor.lockState = CursorLockMode.Locked;
     }
     void Awake()
     {
@@ -23,6 +25,8 @@ public class PauseManager : MonoBehaviour
         isPaused = true;
         pausePanel.SetActive(true);
         Time.timeScale = 0f;  // 暂停时间
+        Cursor.visible = true;
+        Cursor.lockState = CursorLockMode.None;
     }
 
     // 公共方法：隐藏暂停界面（供UI调用）
@@ -31,6 +35,8 @@ public class PauseManager : MonoBehaviour
         isPaused = false;
         pausePanel.SetActive(false);
         Time.timeScale = 1f;  // 恢复时间
+        Cursor.visible = false;
+        Cursor.lockState = CursorLockMode.Locked;
     }
 
     // 外部触发暂停（如输入检测）
