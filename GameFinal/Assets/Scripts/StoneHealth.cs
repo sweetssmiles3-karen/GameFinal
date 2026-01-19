@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-public class StoneHealth : MonoBehaviour
+public class StoneHealth : MonoBehaviour, IDamageable
 {
     [Header("Stone Health Settings")]
     public int maxHP = 50;
@@ -23,10 +23,10 @@ public class StoneHealth : MonoBehaviour
     }
 
     // 被玩家或子弹调用
-    public void TakeDamage(int damage)
+    public void TakeDamage(float damagef)
     {
         if (currentHP <= 0) return;
-
+        int damage = Mathf.RoundToInt(damagef);
         currentHP -= damage;
         Debug.Log($"🪨 Stone Enemy 受伤：{damage} | HP: {currentHP}/{maxHP}");
 
