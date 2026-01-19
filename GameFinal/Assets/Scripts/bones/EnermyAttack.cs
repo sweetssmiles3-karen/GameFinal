@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-public class EnermyAttack : MonoBehaviour
+public class EnermyAttack : MonoBehaviour 
 {
     public int attackDamage = 2;
     public float attackCooldown = 1f;

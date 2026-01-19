@@ -41,8 +41,8 @@ public class TextManager : MonoBehaviour
     {
         Debug.Log("Trigger detected with " + other.gameObject.name);
         CurrentSceneLoader.Instance.TriggerLevelTransition();
-        textmode = true;
-        text[textnumber].SetActive(true);
+       // textmode = true;
+      //  text[textnumber].SetActive(true);
     }
 
 }

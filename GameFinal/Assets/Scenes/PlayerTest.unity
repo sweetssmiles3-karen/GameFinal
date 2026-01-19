@@ -462,6 +462,39 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 5a24ece6e7bc0ce47938324b0012ba85, type: 3}
+--- !u!1 &446082802
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 446082803}
+  m_Layer: 0
+  m_Name: PLAYER
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &446082803
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 446082802}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 1, z: -10}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 961739753}
+  - {fileID: 1262482839}
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &558239687
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -650,12 +683,12 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 961739749}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 1, z: -10}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 0}
+  m_Father: {fileID: 446082803}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &961739754
 MonoBehaviour:
@@ -801,7 +834,7 @@ PrefabInstance:
   serializedVersion: 2
   m_Modification:
     serializedVersion: 3
-    m_TransformParent: {fileID: 0}
+    m_TransformParent: {fileID: 446082803}
     m_Modifications:
     - target: {fileID: 1200570787941417655, guid: e6ea51fe9b4a87344962e9940c68ac95, type: 3}
       propertyPath: hurtSound
@@ -821,11 +854,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4311502304904158189, guid: e6ea51fe9b4a87344962e9940c68ac95, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4311502304904158189, guid: e6ea51fe9b4a87344962e9940c68ac95, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 12.920824
+      value: 22.920824
       objectReference: {fileID: 0}
     - target: {fileID: 4311502304904158189, guid: e6ea51fe9b4a87344962e9940c68ac95, type: 3}
       propertyPath: m_LocalRotation.w
@@ -833,15 +866,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4311502304904158189, guid: e6ea51fe9b4a87344962e9940c68ac95, type: 3}
       propertyPath: m_LocalRotation.x
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: 4311502304904158189, guid: e6ea51fe9b4a87344962e9940c68ac95, type: 3}
       propertyPath: m_LocalRotation.y
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: 4311502304904158189, guid: e6ea51fe9b4a87344962e9940c68ac95, type: 3}
       propertyPath: m_LocalRotation.z
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: 4311502304904158189, guid: e6ea51fe9b4a87344962e9940c68ac95, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -868,9 +901,17 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 8300000, guid: dd5931eb042b0c3479b7001e6734a1dc, type: 3}
     - target: {fileID: 8363650456289088219, guid: e6ea51fe9b4a87344962e9940c68ac95, type: 3}
+      propertyPath: meleeLockTime
+      value: 2.07
+      objectReference: {fileID: 0}
+    - target: {fileID: 8363650456289088219, guid: e6ea51fe9b4a87344962e9940c68ac95, type: 3}
       propertyPath: meleeAttackSound
       value: 
       objectReference: {fileID: 8300000, guid: 11ea4343cd319074e9030d9a198337c1, type: 3}
+    - target: {fileID: 8363650456289088219, guid: e6ea51fe9b4a87344962e9940c68ac95, type: 3}
+      propertyPath: meleeImpactDelay
+      value: 0.46
+      objectReference: {fileID: 0}
     - target: {fileID: 8363650456289088219, guid: e6ea51fe9b4a87344962e9940c68ac95, type: 3}
       propertyPath: lightningHitSound
       value: 
@@ -1074,10 +1115,9 @@ PrefabInstance:
 SceneRoots:
   m_ObjectHideFlags: 0
   m_Roots:
-  - {fileID: 961739753}
+  - {fileID: 446082803}
   - {fileID: 203844589}
   - {fileID: 158401650}
-  - {fileID: 1262482838}
   - {fileID: 558239687}
   - {fileID: 402734587}
   - {fileID: 284268627}
