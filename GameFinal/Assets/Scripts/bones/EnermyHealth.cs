@@ -1,11 +1,11 @@
 ﻿using UnityEngine;
 
-public class EnermyHealth : MonoBehaviour
+public class EnermyHealth : MonoBehaviour,IDamageable
 {
     [Header("Health Settings")]
     public int maxHP = 20;   // Inspector 可改
 
-    private int currentHP;
+    public int currentHP;
 
     private EnemyAI enemyAI;
 
@@ -25,8 +25,9 @@ public class EnermyHealth : MonoBehaviour
     }
 
     // 被外部调用（比如玩家攻击）
-    public void TakeDamage(int damage)
+    public void TakeDamage(float damage1)
     {
+        int   damage = Mathf.RoundToInt(damage1);
         if (currentHP <= 0) return;
 
         currentHP -= damage;

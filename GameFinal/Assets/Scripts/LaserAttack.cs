@@ -16,7 +16,7 @@ public class LaserDamage : MonoBehaviour
     {
         if (other.CompareTag(playerTag))
         {
-            Health playerHealth = other.GetComponent<Health>();
+            PlayerHealth playerHealth = other.GetComponent<PlayerHealth>();
             if (playerHealth != null && damageCoroutine == null)
             {
                 damageCoroutine = StartCoroutine(DamageOverTime(playerHealth));
@@ -36,7 +36,7 @@ public class LaserDamage : MonoBehaviour
         }
     }
 
-    private IEnumerator DamageOverTime(Health playerHealth)
+    private IEnumerator DamageOverTime(PlayerHealth playerHealth)
     {
         while (playerHealth != null)
         {

@@ -5,19 +5,21 @@ using System.Collections;
 public class LoaderSceneController : MonoBehaviour
 {
     private AsyncOperation loadOp;
-    private const string NextSceneName = "NextLevel"; // 需在Inspector设置
-
+    public string NextSceneName; // 需在Inspector设置
+    public float waitTime = 1.0f;
     void Start()
     {
+        
         StartCoroutine(PreloadAndSwitch());
     }
 
     private IEnumerator PreloadAndSwitch()
     {
+        
         // 异步加载目标场景（后台加载）
         loadOp = SceneManager.LoadSceneAsync(NextSceneName);
         loadOp.allowSceneActivation = false;
-
+        yield return new WaitForSeconds (waitTime);
         // 等待资源加载完成（0-0.9阶段）
         while (loadOp.progress < 0.9f)
         {

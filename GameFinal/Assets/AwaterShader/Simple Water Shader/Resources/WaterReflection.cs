@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class WaterReflection : MonoBehaviour
+public class WaterReflection1 : MonoBehaviour
 {
     // referenses
     Camera mainCamera;

@@ -4,7 +4,7 @@ using System;
 using UnityEngine.Rendering.Universal;
 
 [Serializable]
-public class GameData
+public class GameData:MonoBehaviour
 {
     public int stoneCount; // 石头数量
 }

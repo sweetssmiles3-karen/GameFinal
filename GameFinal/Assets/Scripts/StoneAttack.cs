@@ -8,7 +8,7 @@ public class EnemyAttackHit : MonoBehaviour
 
     [Header("玩家引用")]
     public Transform player;             // 玩家 Transform
-    public Health playerHealth;    // 玩家血量脚本
+    public PlayerHealth playerHealth;    // 玩家血量脚本
 
     //  动画事件调用，触发一次伤害
     public void DealAttackDamage()

@@ -166,7 +166,7 @@ public class BossAI : MonoBehaviour
         if (!canMeleeAttack) return;
 
         // 找到玩家血量脚本
-        Health playerHealth = player.GetComponent<Health>();
+        PlayerHealth playerHealth = player.GetComponent<PlayerHealth>();
         if (playerHealth != null)
         {
             playerHealth.TakeDamage(meleeDamage);
