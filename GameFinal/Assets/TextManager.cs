@@ -1,48 +1,64 @@
 using UnityEngine;
 
-public class TextManager : MonoBehaviour
+public class DialogueImagesTrigger : MonoBehaviour
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    public GameObject[] text;
-    int textnumber = 0;
-    int textmax = 0;
-    bool textmode = false;
-    private void Start()
+    public GameObject dialoguePanel;      // optional parent container
+    public GameObject[] dialogues;         // Dialogue1 until Dialogue8
+
+    private int index = 0;
+    private bool inDialogue = false;
+    private bool played = false;
+
+    void Start()
     {
-        textmax = text.Length;
-        for (int i = 0; i < text.Length; i++)
-        {
-            text[i].SetActive(false);
-        }
-    }
-    private void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.Space)) {//go next text
-            if (textmode) {
-                if (textnumber < textmax - 1)
-                {
-                    text[textnumber].SetActive(false);
-                    textnumber++;
-                    text[textnumber].SetActive(true);
-                }
-                else
-                {
-                    text[textnumber].SetActive(false);
-                    textmode = false;
-                }
-                }
-            
-        }
-        
+        if (dialoguePanel != null) dialoguePanel.SetActive(false);
+
+        for (int i = 0; i < dialogues.Length; i++)
+            dialogues[i].SetActive(false);
     }
 
-    // Update is called once per frame
+    void Update()
+    {
+        if (!inDialogue) return;
+
+        if (Input.GetKeyDown(KeyCode.Space))
+            Next();
+    }
+
     private void OnTriggerEnter(Collider other)
     {
-        Debug.Log("Trigger detected with " + other.gameObject.name);
-        CurrentSceneLoader.Instance.TriggerLevelTransition();
-       // textmode = true;
-      //  text[textnumber].SetActive(true);
+        if (!other.CompareTag("Player")) return;
+        if (played) return; // remove this if you want it repeatable
+
+        played = true;
+        StartDialogue();
     }
 
+    void StartDialogue()
+    {
+        if (dialoguePanel != null) dialoguePanel.SetActive(true);
+
+        inDialogue = true;
+        index = 0;
+        dialogues[index].SetActive(true);
+    }
+
+    void Next()
+    {
+        dialogues[index].SetActive(false);
+        index++;
+
+        if (index >= dialogues.Length)
+        {
+            inDialogue = false;
+            if (dialoguePanel != null) dialoguePanel.SetActive(false);
+
+            // Optional: load next level AFTER dialogue finishes
+            // CurrentSceneLoader.Instance.TriggerLevelTransition();
+        }
+        else
+        {
+            dialogues[index].SetActive(true);
+        }
+    }
 }
