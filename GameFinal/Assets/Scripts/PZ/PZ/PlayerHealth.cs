@@ -1,16 +1,20 @@
 using UnityEngine;
 using UnityEngine.Events;
-using System.Collections; 
+using System.Collections;
 
 public class PlayerHealth : MonoBehaviour, IDamageable
 {
+    [Header("Audio Settings")] // <--- NEW
+    public AudioClip hurtSound;
+    public AudioClip deathSound;
+
     [Header("Player Stats")]
     public float maxHealth = 100f;
     [SerializeField] private float currentHealth;
 
     [Header("Knockback Settings")]
-    public float knockbackDistance = 2f; 
-    public float knockbackDuration = 0.2f; 
+    public float knockbackDistance = 2f;
+    public float knockbackDuration = 0.2f;
 
     [Header("Combat Flags")]
     public bool isInvulnerable = false;
@@ -22,7 +26,8 @@ public class PlayerHealth : MonoBehaviour, IDamageable
     private Animator anim;
     private PlayerMovement movement;
     private PlayerCombat combat;
-    private CharacterController characterController; 
+    private CharacterController characterController;
+    private AudioSource audioSource; // <--- NEW: The Speaker
     private bool isDead = false;
 
     void Start()
@@ -31,7 +36,10 @@ public class PlayerHealth : MonoBehaviour, IDamageable
         anim = GetComponent<Animator>();
         movement = GetComponent<PlayerMovement>();
         combat = GetComponent<PlayerCombat>();
-        characterController = GetComponent<CharacterController>(); 
+        characterController = GetComponent<CharacterController>();
+
+        // <--- NEW: Find the speaker
+        audioSource = GetComponent<AudioSource>();
 
         OnHealthChanged?.Invoke(1f);
     }
@@ -49,48 +57,37 @@ public class PlayerHealth : MonoBehaviour, IDamageable
         }
         else
         {
-            
             if (anim != null) anim.SetTrigger("GetHit");
 
-            
-            StopCoroutine("PerformKnockback"); 
+            // <--- NEW: Play Hurt Sound
+            if (audioSource != null && hurtSound != null)
+            {
+                audioSource.PlayOneShot(hurtSound);
+            }
+
+            StopCoroutine("PerformKnockback");
             StartCoroutine(PerformKnockback());
         }
     }
 
     IEnumerator PerformKnockback()
     {
-        
         if (movement != null) movement.enabled = false;
         if (combat != null) combat.enabled = false;
 
         float timer = 0f;
-
-        
         while (timer < knockbackDuration)
         {
             timer += Time.deltaTime;
-
-            
             float speed = knockbackDistance / knockbackDuration;
             Vector3 pushDir = -transform.forward * speed * Time.deltaTime;
 
-            
-            if (characterController != null)
-            {
-               
-                characterController.Move(pushDir);
-            }
-            else
-            {
-                
-                transform.position += pushDir;
-            }
+            if (characterController != null) characterController.Move(pushDir);
+            else transform.position += pushDir;
 
-            yield return null; 
+            yield return null;
         }
 
-        
         if (!isDead)
         {
             if (movement != null) movement.enabled = true;
@@ -110,9 +107,14 @@ public class PlayerHealth : MonoBehaviour, IDamageable
             anim.SetFloat("Speed", 0f);
         }
 
+        // <--- NEW: Play Death Sound
+        if (audioSource != null && deathSound != null)
+        {
+            audioSource.PlayOneShot(deathSound);
+        }
+
         OnPlayerDeath?.Invoke();
 
-       
         if (movement != null) movement.enabled = false;
         if (combat != null) combat.enabled = false;
         if (characterController != null) characterController.enabled = false;
