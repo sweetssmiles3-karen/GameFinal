@@ -13,7 +13,7 @@ public class LoaderSceneController : MonoBehaviour
         StartCoroutine(PreloadAndSwitch());
     }
 
-    private IEnumerator PreloadAndSwitch()
+    public IEnumerator PreloadAndSwitch()
     {
         
         // 异步加载目标场景（后台加载）

@@ -99,9 +99,9 @@ public class PlayerHealth : MonoBehaviour, IDamageable
         }
     }
 
-    void Die()
+    IEnumerator Die()
     {
-        if (isDead) return;
+        if (isDead) yield break;
         isDead = true;
 
         if (anim != null)
@@ -125,8 +125,9 @@ public class PlayerHealth : MonoBehaviour, IDamageable
 
         Collider col = GetComponent<Collider>();
         if (col != null) col.enabled = false;
-
-        Debug.Log("Player Died.");
+        yield return new WaitForSeconds(2);
+        CurrentSceneLoader.Instance.TriggerLevelTransition();
+        //Debug.Log("Player Died.");
     }
     public void UpdateHealthUI()
     {

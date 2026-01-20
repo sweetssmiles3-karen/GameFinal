@@ -3398,6 +3398,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1077403035584117724, guid: ec32a5d46a374e442a0ec10b958a2277, type: 3}
+      propertyPath: NextSceneName
+      value: Player_Die 1
+      objectReference: {fileID: 0}
     - target: {fileID: 1079275582383816568, guid: ec32a5d46a374e442a0ec10b958a2277, type: 3}
       propertyPath: m_LocalPosition.x
       value: 69.4
@@ -24797,6 +24801,10 @@ PrefabInstance:
     - target: {fileID: 3736977265143086111, guid: 01630bf6b1fe4d04abfcd43b1cbb5119, type: 3}
       propertyPath: m_Name
       value: pausepanel
+      objectReference: {fileID: 0}
+    - target: {fileID: 3736977265143086111, guid: 01630bf6b1fe4d04abfcd43b1cbb5119, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4304076152570961913, guid: 01630bf6b1fe4d04abfcd43b1cbb5119, type: 3}
       propertyPath: m_Pivot.x
