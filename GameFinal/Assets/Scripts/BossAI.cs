@@ -19,7 +19,7 @@ public class BossAI : MonoBehaviour
     public int meleeDamage = 10;              // 每次近战伤害
     public float meleeCooldown = 2f;          // 攻击冷却
     public LaserDamage laserAttack;           // Phase1 的 LaserDamage 脚本引用
-
+    public float meleeRange = 2f;              // 近战攻击范围
     private bool canMeleeAttack = true;       // 攻击冷却标记
 
 
@@ -88,7 +88,7 @@ public class BossAI : MonoBehaviour
             {
                 animator.SetTrigger("attackNear");
                 nextAttackTime = Time.time + attackNearCooldown;
-
+                if(distance<=meleeRange)
                 // 🔹 延迟伤害：可以用协程或 Animator Event
                 StartCoroutine(DelayedMeleeHit(0.5f)); // 假设动画0.5秒后打击命中
             }
@@ -167,11 +167,11 @@ public class BossAI : MonoBehaviour
 
         // 找到玩家血量脚本
         PlayerHealth playerHealth = player.GetComponent<PlayerHealth>();
-        if (playerHealth != null)
-        {
+   
+        
             playerHealth.TakeDamage(meleeDamage);
             Debug.Log($"💥 Boss近战攻击玩家 -{meleeDamage}HP");
-        }
+        
 
         // 设置攻击冷却
         canMeleeAttack = false;

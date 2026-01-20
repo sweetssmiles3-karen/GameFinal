@@ -254,6 +254,10 @@ PrefabInstance:
       propertyPath: dashSound
       value: 
       objectReference: {fileID: 8300000, guid: b64efba55b8ad514c8484d27573d78b2, type: 3}
+    - target: {fileID: 8103596381123777910, guid: e6ea51fe9b4a87344962e9940c68ac95, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 8363650456289088219, guid: e6ea51fe9b4a87344962e9940c68ac95, type: 3}
       propertyPath: reloadSound
       value: 

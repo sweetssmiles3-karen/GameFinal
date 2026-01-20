@@ -68,9 +68,11 @@ public class PlayerCombat : MonoBehaviour
     private float currentCooldown = 0f;
     private bool isAttacking = false;
     private bool isReloading = false;
-
+    public GameObject I;
+    
     void Start()
     {
+        
         anim = GetComponent<Animator>();
         movement = GetComponent<PlayerMovement>();
         myHealth = GetComponent<PlayerHealth>();
@@ -184,6 +186,7 @@ public class PlayerCombat : MonoBehaviour
             audioSource.clip = reloadSound;
             audioSource.loop = true;
             audioSource.Play();
+            myHealth.TakeDamage(-5);
         }
 
         // 3. Regen Loop
@@ -194,6 +197,7 @@ public class PlayerCombat : MonoBehaviour
             if (isReloading)
             {
                 currentMana += manaRegenAmount;
+               
                 // Cap Mana
                 if (currentMana >= maxMana)
                 {

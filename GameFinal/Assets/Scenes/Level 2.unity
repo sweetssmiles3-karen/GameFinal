@@ -36319,6 +36319,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 72cf647722f577f4a90e8fea5e54918a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  currentSceneName: 
   NextSceneName: Loading to level 3
 --- !u!65 &1013155854
 BoxCollider:
@@ -59449,9 +59450,21 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 507080145784346621, guid: 7809587fbba4a3b469d3f8c97cb14ba1, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4237412918016490177, guid: 7809587fbba4a3b469d3f8c97cb14ba1, type: 3}
       propertyPath: m_Name
       value: Canvas (1)
+      objectReference: {fileID: 0}
+    - target: {fileID: 5289022492685776678, guid: 7809587fbba4a3b469d3f8c97cb14ba1, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5959191632752144766, guid: 7809587fbba4a3b469d3f8c97cb14ba1, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5959191633516183338, guid: 7809587fbba4a3b469d3f8c97cb14ba1, type: 3}
       propertyPath: m_PresetInfoIsWorld

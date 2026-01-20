@@ -323,13 +323,13 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 512948424}
-        m_TargetAssemblyTypeName: 
-        m_MethodName: 
+      - m_Target: {fileID: 512948429}
+        m_TargetAssemblyTypeName: CurrentSceneLoader, Assembly-CSharp
+        m_MethodName: TriggerLevelTransition
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: 
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
@@ -382,11 +382,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 512948424}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 46f4f20c6a63b7547a15280178698f62, type: 3}
+  m_Script: {fileID: 11500000, guid: 72cf647722f577f4a90e8fea5e54918a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  NextSceneName: 
-  waitTime: 1
+  NextSceneName: MainMenu
 --- !u!1 &653944737
 GameObject:
   m_ObjectHideFlags: 0
@@ -477,6 +476,7 @@ GameObject:
   - component: {fileID: 848545627}
   - component: {fileID: 848545626}
   - component: {fileID: 848545625}
+  - component: {fileID: 848545629}
   m_Layer: 5
   m_Name: Exit
   m_TagString: Untagged
@@ -570,7 +570,7 @@ MonoBehaviour:
           m_FloatArgument: 0
           m_StringArgument: 
           m_BoolArgument: 1
-        m_CallState: 2
+        m_CallState: 1
 --- !u!114 &848545627
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -609,6 +609,20 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 848545623}
   m_CullTransparentMesh: 1
+--- !u!114 &848545629
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 848545623}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 46f4f20c6a63b7547a15280178698f62, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  NextSceneName: 
+  waitTime: 1
 --- !u!1 &946975559
 GameObject:
   m_ObjectHideFlags: 0

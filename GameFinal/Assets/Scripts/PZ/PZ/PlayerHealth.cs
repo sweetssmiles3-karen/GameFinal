@@ -33,7 +33,17 @@ public class PlayerHealth : MonoBehaviour, IDamageable
     [Header("UI References")]
     public UnityEngine.UI.Image healthFill;   // Health bar Fill
     public UnityEngine.UI.Text healthText;    // Health bar Text
-
+    public float getHealth()
+    {
+        return currentHealth;
+    }
+    public void heal(float amount)
+    {
+        if (isDead) return;
+        currentHealth += amount;
+        if (currentHealth > maxHealth) currentHealth = maxHealth;
+        OnHealthChanged?.Invoke(currentHealth / maxHealth);
+    }
     void Start()
     {
         currentHealth = maxHealth;

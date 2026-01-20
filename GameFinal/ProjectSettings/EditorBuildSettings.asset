@@ -32,6 +32,18 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Level 1.unity
     guid: df8bd894aa7b0dc4585d0110a533b8b3
+  - enabled: 1
+    path: Assets/Scenes/Player_Die 1.unity
+    guid: 5f988c1cc3d6d1848b905a3f6333d0e5
+  - enabled: 1
+    path: Assets/Scenes/Player_Die 2.unity
+    guid: 91bc45a1976841d4db74621d56ef4370
+  - enabled: 1
+    path: Assets/Scenes/Player_Die 3.unity
+    guid: 8b073307f24c18b4db0e33c8aab2e94b
+  - enabled: 1
+    path: Assets/Scenes/END.unity
+    guid: d9d952b80c56a474c9797eb85bfd1e08
   m_configObjects:
     com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 052faaac586de48259a63d0c4782560b, type: 3}
   m_UseUCBPForAssetBundles: 0

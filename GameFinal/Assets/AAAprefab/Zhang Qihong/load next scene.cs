@@ -7,9 +7,11 @@ public class LoaderSceneController : MonoBehaviour
     private AsyncOperation loadOp;
     public string NextSceneName; // 需在Inspector设置
     public float waitTime = 1.0f;
+    private string currentSceneName;
     void Start()
     {
-        
+        // 获取当前场景名称
+        currentSceneName = SceneManager.GetActiveScene().name;
         StartCoroutine(PreloadAndSwitch());
     }
 
@@ -30,7 +32,7 @@ public class LoaderSceneController : MonoBehaviour
         loadOp.allowSceneActivation = true;
         yield return loadOp;
 
-        // 场景切换完成后卸载预加载场景
-        SceneManager.UnloadSceneAsync("LoaderScene");
+        // 场景切换完成后卸载当前场景
+       SceneManager.UnloadSceneAsync( currentSceneName);
     }
 }
