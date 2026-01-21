@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Collections;
+using UnityEngine;
 
 public class EnermyAttack : MonoBehaviour 
 {
@@ -7,12 +8,13 @@ public class EnermyAttack : MonoBehaviour
 
     private float attackTimer = 0f;
 
-    private PlayerHealth playerHealth;
+    public PlayerHealth playerHealth;
 
     void Start()
     {
         GameObject player = GameObject.FindGameObjectWithTag("Player");
-
+        Debug.Log("找到玩家物体: " + (player != null ? player.name : "null"));
+       // StartCoroutine(wait());
         if (player != null)
         {
             playerHealth = player.GetComponent<PlayerHealth>();
@@ -23,7 +25,7 @@ public class EnermyAttack : MonoBehaviour
             Debug.LogError("找不到 PlayerHealthController");
         }
     }
-
+   
     void Update()
     {
         attackTimer -= Time.deltaTime;

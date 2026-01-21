@@ -1,4 +1,6 @@
 using UnityEngine;
+using UnityEngine.SceneManagement;
+using System.Collections;
 public class TextManager : MonoBehaviour
 {
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -30,7 +32,8 @@ public class TextManager : MonoBehaviour
                 {
                     text[textnumber].SetActive(false);
                     textmode = false;
-                    CurrentSceneLoader.Instance.TriggerLevelTransition();
+                   // CurrentSceneLoader.Instance.TriggerLevelTransition();
+                    StartCoroutine(UnloadAndLoadCoroutine());
                 }
             }
 
@@ -44,5 +47,14 @@ public class TextManager : MonoBehaviour
        
         textmode = true;
         text[textnumber].SetActive(true);
+    }
+    private IEnumerator UnloadAndLoadCoroutine()
+    {
+        // 1. 异步卸载当前场景（等待100%完成）
+        AsyncOperation unloadOp = SceneManager.UnloadSceneAsync(SceneManager.GetActiveScene().name);
+        yield return unloadOp;
+
+        // 2. 同步加载新场景（确保旧场景已销毁）
+        SceneManager.LoadScene("Loading to level 3");
     }
 }

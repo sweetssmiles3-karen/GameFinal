@@ -1,6 +1,8 @@
-﻿using UnityEngine;
+﻿using System.Collections;
+using Unity.VisualScripting;
+using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
-using System.Collections;
 
 public class BossHealth_UI : MonoBehaviour, IDamageable
 {
@@ -21,6 +23,7 @@ public class BossHealth_UI : MonoBehaviour, IDamageable
 
     private Animator animator;
     public GameObject dialog;
+
     void Start()
     {
         animator = GetComponent<Animator>();
@@ -48,7 +51,10 @@ public class BossHealth_UI : MonoBehaviour, IDamageable
         // Phase2死亡
         else if (isPhase2 && currentHP <= 0)
         {
-            Die();
+            if (!isDead)
+            {
+               StartCoroutine(Die());
+            }
         }
     }
 
@@ -89,7 +95,7 @@ public class BossHealth_UI : MonoBehaviour, IDamageable
         StartCoroutine(ShowDia1());
     }
 
-    private IEnumerable Die()
+    private IEnumerator Die()
     {
         if (isDead) yield break;
 
@@ -102,9 +108,9 @@ public class BossHealth_UI : MonoBehaviour, IDamageable
         if(dialog!=null)
             dialog.SetActive(true);
 
-        yield return new WaitForSeconds(3f);
-
+        yield return new WaitForSeconds(2.5f);
         CurrentSceneLoader.Instance.TriggerLevelTransition();
+        //yield return UnloadAndLoadCoroutine();
 
     }
     IEnumerator ShowDia1()
@@ -112,5 +118,14 @@ public class BossHealth_UI : MonoBehaviour, IDamageable
         dialog.SetActive(true);
         yield return new WaitForSeconds(5f);
         dialog.SetActive(false);
+    }
+    private IEnumerator UnloadAndLoadCoroutine()
+    {
+        // 1. 异步卸载当前场景（等待100%完成）
+        AsyncOperation unloadOp = SceneManager.UnloadSceneAsync(SceneManager.GetActiveScene().name);
+        yield return unloadOp;
+
+        // 2. 同步加载新场景（确保旧场景已销毁）
+        SceneManager.LoadScene("END");
     }
 }

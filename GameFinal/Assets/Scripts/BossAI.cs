@@ -158,6 +158,7 @@ public class BossAI : MonoBehaviour
 
         //  等待3秒后删除
         yield return new WaitForSeconds(3f);
+        CurrentSceneLoader.Instance.TriggerLevelTransition();
         Destroy(gameObject);
     }
 

@@ -1,5 +1,6 @@
 using System.Collections;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class gamemanager : MonoBehaviour
 {
@@ -55,7 +56,17 @@ public class gamemanager : MonoBehaviour
     IEnumerator NextLevel()
     {
         yield return new WaitForSeconds(2f);
-        CurrentSceneLoader.Instance.TriggerLevelTransition();
+      //  CurrentSceneLoader.Instance.TriggerLevelTransition();
+      StartCoroutine(UnloadAndLoadCoroutine());
+    }
+    private IEnumerator UnloadAndLoadCoroutine()
+    {
+        // 1. 异步卸载当前场景（等待100%完成）
+        AsyncOperation unloadOp = SceneManager.UnloadSceneAsync(SceneManager.GetActiveScene().name);
+        yield return unloadOp;
+
+        // 2. 同步加载新场景（确保旧场景已销毁）
+        SceneManager.LoadScene("Loading to level 2");
     }
     IEnumerator ShowDia1()
     {
