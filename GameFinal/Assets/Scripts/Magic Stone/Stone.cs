@@ -6,7 +6,7 @@ public class Gem : MonoBehaviour
 
     void Start()
     {
-        gemHintUI = FindObjectOfType<GemHintUI>();
+       // gemHintUI = FindObjectOfType<GemHintUI>();
     }
 
     private void OnTriggerEnter(Collider other)

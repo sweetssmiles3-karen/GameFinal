@@ -39,6 +39,6 @@ public class EnermyAttack : MonoBehaviour
 
         playerHealth.TakeDamage(attackDamage);
 
-        Debug.Log("Enemy 攻击玩家，伤害：" + attackDamage);
+       // Debug.Log("Enemy 攻击玩家，伤害：" + attackDamage);
     }
 }

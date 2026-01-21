@@ -42,9 +42,13 @@ public class EnermyHealth : MonoBehaviour,IDamageable
     void Die()
     {
         Debug.Log(" Enemy 死亡");
-
+        if (gmlevel2.Instance != null)
+        {
+            gmlevel2.Instance.killcount += 1;
+        }
         if (enemyAI != null)
         {
+
             enemyAI.Die();   //  调用刚刚的死亡逻辑
         }
     }

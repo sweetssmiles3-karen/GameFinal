@@ -42,6 +42,10 @@ public class TP : MonoBehaviour
         Debug.Log("Trigger detected with " + other.gameObject.name);
  
         StartTeleport();
+        if(gmlevel2.Instance != null)
+        {
+            gmlevel2.Instance.togglehint();
+        }
     }
 
 

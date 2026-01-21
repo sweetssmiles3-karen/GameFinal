@@ -68,7 +68,7 @@ public class PlayerCombat : MonoBehaviour
     private float currentCooldown = 0f;
     private bool isAttacking = false;
     private bool isReloading = false;
-    public GameObject I;
+
     
     void Start()
     {
@@ -95,7 +95,7 @@ public class PlayerCombat : MonoBehaviour
                               Input.GetMouseButtonDown(1) ||
                               Input.GetKeyDown(KeyCode.G);
 
-            if (isMoving || isClicking)
+            if ( isClicking)
             {
                 StopReloading();
             }
@@ -186,13 +186,13 @@ public class PlayerCombat : MonoBehaviour
             audioSource.clip = reloadSound;
             audioSource.loop = true;
             audioSource.Play();
-            myHealth.TakeDamage(-5);
+            myHealth.heal(5);
         }
 
         // 3. Regen Loop
         while (isReloading && currentMana < maxMana)
         {
-            yield return new WaitForSeconds(manaRegenInterval);
+            
 
             if (isReloading)
             {
@@ -209,6 +209,7 @@ public class PlayerCombat : MonoBehaviour
 
                 OnManaChanged?.Invoke(currentMana / maxMana);
             }
+            yield return new WaitForSeconds(manaRegenInterval);
         }
     }
 

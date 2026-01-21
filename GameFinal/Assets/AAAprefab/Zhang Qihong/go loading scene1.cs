@@ -2,11 +2,11 @@ using System.Collections;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class CurrentSceneLoader : MonoBehaviour
+public class diesceneloader : MonoBehaviour
 {
     public string NextSceneName;
     //´´½¨ÊµÀý
-    public static CurrentSceneLoader Instance { get; private set; }
+    public static diesceneloader Instance { get; private set; }
     void Awake()
     {
         Instance = this;

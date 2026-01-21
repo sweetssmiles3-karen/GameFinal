@@ -15,7 +15,7 @@ public class StoneAI : MonoBehaviour
 
     private bool isDead = false;
     private bool isAttacking = false; // 标记攻击中
-
+    public AudioSource attacksound;
     void Start()
     {
         player = GameObject.FindGameObjectWithTag("Player").transform;
@@ -58,7 +58,7 @@ public class StoneAI : MonoBehaviour
             agent.isStopped = true;       //  攻击时停止移动
             animator.SetBool("run", false);
             animator.SetTrigger("attack");
-
+            attacksound.Play();
             if (attack != null)
                 attack.TryAttack();
 

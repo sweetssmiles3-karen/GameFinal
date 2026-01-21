@@ -33,6 +33,8 @@ public class PlayerHealth : MonoBehaviour, IDamageable
     [Header("UI References")]
     public UnityEngine.UI.Image healthFill;   // Health bar Fill
     public UnityEngine.UI.Text healthText;    // Health bar Text
+
+   
     public float getHealth()
     {
         return currentHealth;
@@ -67,7 +69,8 @@ public class PlayerHealth : MonoBehaviour, IDamageable
 
         if (currentHealth <= 0)
         {
-            Die();
+            Debug.Log("Player Health Depleted.");
+            StartCoroutine(Die());
         }
         else
         {
@@ -113,7 +116,7 @@ public class PlayerHealth : MonoBehaviour, IDamageable
     {
         if (isDead) yield break;
         isDead = true;
-
+        Debug.Log("Player Died - Starting Death Sequence.");
         if (anim != null)
         {
             anim.ResetTrigger("GetHit");
@@ -136,7 +139,8 @@ public class PlayerHealth : MonoBehaviour, IDamageable
         Collider col = GetComponent<Collider>();
         if (col != null) col.enabled = false;
         yield return new WaitForSeconds(2);
-        CurrentSceneLoader.Instance.TriggerLevelTransition();
+       // CurrentSceneLoader.Instance.TriggerLevelTransition();
+        diesceneloader.Instance.TriggerLevelTransition();
         //Debug.Log("Player Died.");
     }
     public void UpdateHealthUI()

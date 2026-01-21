@@ -11,7 +11,8 @@ public class BossHealth_UI : MonoBehaviour, IDamageable
     [Header("UI引用")]
     public Image healthFill;   // 血条 Fill
     public Text healthText;    // 血条文字
-
+    public Image healthf2;
+    public Text healtht2;
     [Header("Boss状态")]
     public bool isPhase2 = false;
     public int currentHP;
@@ -61,6 +62,14 @@ public class BossHealth_UI : MonoBehaviour, IDamageable
         if (healthText != null)
             healthText.text = currentHP + " / " + maxHP;
     }
+    public void UpdateHealthUI2() 
+    {  
+        int maxHP = isPhase2 ? maxHPPhase2 : maxHPPhase1;
+        if (healthf2 != null)
+            healthf2.fillAmount = (float)currentHP / maxHP;
+        if (healtht2 != null)
+            healtht2.text = currentHP + " / " + maxHP;
+    }
 
     private IEnumerator EnterPhase2()
     {
@@ -77,6 +86,7 @@ public class BossHealth_UI : MonoBehaviour, IDamageable
         // 血量回满 Phase2
         currentHP = maxHPPhase2;
         UpdateHealthUI();
+        StartCoroutine(ShowDia1());
     }
 
     private IEnumerable Die()
@@ -96,5 +106,11 @@ public class BossHealth_UI : MonoBehaviour, IDamageable
 
         CurrentSceneLoader.Instance.TriggerLevelTransition();
 
+    }
+    IEnumerator ShowDia1()
+    {
+        dialog.SetActive(true);
+        yield return new WaitForSeconds(5f);
+        dialog.SetActive(false);
     }
 }

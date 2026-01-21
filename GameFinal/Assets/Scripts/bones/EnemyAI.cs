@@ -14,7 +14,7 @@ public class EnemyAI : MonoBehaviour
 
     private bool isDead = false;
 
-
+    public AudioSource attacksound;
 
     void Start()
     {
@@ -60,6 +60,7 @@ public class EnemyAI : MonoBehaviour
      
             if (attack != null)
                 attack.TryAttack();
+            attacksound.Play();
         }
         // 玩家离开
         else
