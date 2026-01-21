@@ -25431,24 +25431,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a1c90c2c3e3405d49bcbb0120be214b9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!1 &2143383116 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 4155787353151920506, guid: 01630bf6b1fe4d04abfcd43b1cbb5119, type: 3}
-  m_PrefabInstance: {fileID: 6535561556082476764}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &2143383122
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2143383116}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 72cf647722f577f4a90e8fea5e54918a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  NextSceneName: MainMenu
 --- !u!1001 &2144204563
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -25663,17 +25645,9 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 2062352473}
     m_Modifications:
-    - target: {fileID: 2360220237360926066, guid: 01630bf6b1fe4d04abfcd43b1cbb5119, type: 3}
-      propertyPath: m_Enabled
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 3736977265143086111, guid: 01630bf6b1fe4d04abfcd43b1cbb5119, type: 3}
       propertyPath: m_Name
       value: pausepanel
-      objectReference: {fileID: 0}
-    - target: {fileID: 3736977265143086111, guid: 01630bf6b1fe4d04abfcd43b1cbb5119, type: 3}
-      propertyPath: m_IsActive
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4304076152570961913, guid: 01630bf6b1fe4d04abfcd43b1cbb5119, type: 3}
       propertyPath: m_Pivot.x
@@ -25755,18 +25729,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 6110687187728963718, guid: 01630bf6b1fe4d04abfcd43b1cbb5119, type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
-      value: 
-      objectReference: {fileID: 2143383122}
-    - target: {fileID: 6110687187728963718, guid: 01630bf6b1fe4d04abfcd43b1cbb5119, type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: TriggerLevelTransition
-      objectReference: {fileID: 0}
-    - target: {fileID: 6110687187728963718, guid: 01630bf6b1fe4d04abfcd43b1cbb5119, type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
-      value: CurrentSceneLoader, Assembly-CSharp
-      objectReference: {fileID: 0}
     - target: {fileID: 8831643653921942627, guid: 01630bf6b1fe4d04abfcd43b1cbb5119, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
@@ -25774,10 +25736,7 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 4155787353151920506, guid: 01630bf6b1fe4d04abfcd43b1cbb5119, type: 3}
-      insertIndex: 4
-      addedObject: {fileID: 2143383122}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 01630bf6b1fe4d04abfcd43b1cbb5119, type: 3}
 --- !u!1001 &7763486552472412393
 PrefabInstance:
